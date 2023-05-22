@@ -1,0 +1,44 @@
+
+
+------------------------------------Trigger--------------------------------
+
+
+
+create trigger t1 
+
+before insert on salary 
+
+for each ROW 
+
+BEGIN 
+
+set new.total=new.1st+new.2nd+new.3rd;
+
+ END 
+
+
+
+insert into salary values("Guhan", 500, 600, 700,'');
+
+
+Name 	1st 	2nd 	3rd 	total 	
+Guhan 	500 	600 	700 	1800
+
+
+update salary set 2nd=700 where name="Guhan";
+
+
+Name 	1st 	2nd 	3rd 	total 	
+Guhan 	500 	700 	700 	1800
+
+
+
+create trigger t2 after insert on salary for each ROW update t1 set t1.total=t1.1st+t1.2nd+t1.3rd;
+
+
+
+update salary set 2nd=700 where name="Guhan";
+
+
+
+ 

@@ -1,0 +1,58 @@
+What is Default?
+
+SQL DEFAULT Constraint. The DEFAULT constraint is used to provide a default value for a column. 
+The default value will be added to all new records IF no other value is specified.
+
+# mysql
+
+MariaDB [(none)]> use test;
+
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| myview         |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> create table employee(id int, name varchar(30), company varchar(30) default "abcd_company");
+
+MariaDB [test]> desc employee;
++---------+-------------+------+-----+--------------+-------+
+| Field   | Type        | Null | Key | Default      | Extra |
++---------+-------------+------+-----+--------------+-------+
+| id      | int(11)     | YES  |     | NULL         |       |
+| name    | varchar(30) | YES  |     | NULL         |       |
+| company | varchar(30) | YES  |     | abcd_company |       |
++---------+-------------+------+-----+--------------+-------+
+
+
+MariaDB [test]> insert into employee(id,name) values(1, "Guhan");
+
+
+MariaDB [test]> insert into employee(id,name) values(2, "Ganesa");
+
+
+MariaDB [test]> select * from employee;
++------+--------+--------------+
+| id   | name   | company      |
++------+--------+--------------+
+|    1 | Guhan  | abcd_company |
+|    2 | Ganesa | abcd_company |
++------+--------+--------------+
+
+
+MariaDB [test]> insert into employee(id,name) values(3,"anbu"),(4,"muthu"),(5,"jaya");
+
+
+MariaDB [test]> select * from employee;
++------+--------+--------------+
+| id   | name   | company      |
++------+--------+--------------+
+|    1 | Guhan  | abcd_company |
+|    2 | Ganesa | abcd_company |
+|    3 | anbu   | abcd_company |
+|    4 | muthu  | abcd_company |
+|    5 | jaya   | abcd_company |
++------+--------+--------------+

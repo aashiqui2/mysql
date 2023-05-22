@@ -1,0 +1,64 @@
+------------------------------------Trigger--------------------------------
+
+
+
+create trigger t1 
+
+before insert on salary 
+
+for each ROW 
+
+BEGIN 
+
+set new.total=new.1st+new.2nd+new.3rd;
+
+ END 
+
+
+
+insert into salary values("Guhan", 500, 600, 700,'');
+
+
+Name 	1st 	2nd 	3rd 	total 	
+Guhan 	500 	600 	700 	1800
+
+
+update salary set 2nd=700 where name="Guhan";
+
+
+Name 	1st 	2nd 	3rd 	total 	
+Guhan 	500 	700 	700 	1800
+
+
+
+create trigger t2 after insert on salary for each ROW update t1 set t1.total=t1.1st+t1.2nd+t1.3rd;
+
+
+
+update salary set 2nd=700 where name="Guhan";
+
+------------------------------------------------------------------------------------------
+mysql> create table mark_details(tamil varchar(30), eng varchar(30), 
+maths varchar(30), total varchar(30));
+
+mysql> create trigger t1 before insert on mark_details for each row 
+set new.total=new.tamil+new.eng+new.maths;
+
+
+mysql> insert into mark_details values(56, 67, 80);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+
+mysql> insert into mark_details values(56, 67, 80, "");
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from mark_details;
++-------+------+-------+-------+
+| tamil | eng  | maths | total |
++-------+------+-------+-------+
+| 56    | 67   | 80    | 203   |
++-------+------+-------+-------+
+1 row in set (0.00 sec)
+
+
+
+ 

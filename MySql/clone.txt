@@ -1,0 +1,93 @@
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| employee       |
+| m1             |
+| product        |
+| sales          |
+| user           |
++----------------+
+5 rows in set (0.042 sec)
+
+MariaDB [test]> create table data(id int auto_increment,name varchar(20), mobile varchar(20), age varchar(20), course varchar(20),primary key(id));
+Query OK, 0 rows affected (0.325 sec)
+
+MariaDB [test]> insert into data values("","aashqiui","242384","23","PHP");
+Query OK, 1 row affected, 1 warning (0.084 sec)
+
+
+MariaDB [test]> select * from data;
++----+----------+--------+------+--------+
+| id | name     | mobile | age  | course |
++----+----------+--------+------+--------+
+|  1 | aashqiui | 242384 | 23   | PHP    |
++----+----------+--------+------+--------+
+1 row in set (0.001 sec)
+
+MariaDB [test]> create table customer(id int auto_increment,name varchar(20),mob varchar(20),primary key(id));
+Query OK, 0 rows affected (0.330 sec)
+
+MariaDB [test]> insert into customer values("","aashiqui","6647");
+Query OK, 1 row affected, 1 warning (0.053 sec)
+
+MariaDB [test]> insert into customer values("","nikita","8764");
+Query OK, 1 row affected, 1 warning (0.079 sec)
+
+MariaDB [test]> select * from customer;
++----+----------+------+
+| id | name     | mob  |
++----+----------+------+
+|  1 | aashiqui | 6647 |
+|  2 | nikita   | 8764 |
++----+----------+------+
+2 rows in set (0.001 sec)
+
+
+------------------------------------CLONE-----------------------------------
+
+MariaDB [test]> insert into data (id,name,mobile) select id,name,mob from customer;
+Query OK, 2 rows affected (0.079 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select * from data;
++----+----------+--------+------+--------+
+| id | name     | mobile | age  | course |
++----+----------+--------+------+--------+
+|  1 | aashqiui | 242384 | 23   | PHP    |
+|  1 | aashiqui | 6647   | NULL | NULL   |
+|  2 | nikita   | 8764   | NULL | NULL   |
++----+----------+--------+------+--------+
+3 rows in set (0.001 sec)
+
+MariaDB [test]> select * from emp;
++------+--------+--------+
+| id   | name   | mob    |
++------+--------+--------+
+| 1    | Dina   | 8787   |
+| 2    | devi   | 6767   |
+| 3    | partha | 797897 |
++------+--------+--------+
+3 rows in set (0.07 sec)
+
+MariaDB [test]> insert into emp(id, name, mobile) select id, name, mob from cust
+omer;
+
+Query OK, 2 rows affected (0.09 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select * from emp;
++------+--------+--------+
+| id   | name   | mob    |
++------+--------+--------+
+| 1    | Dina   | 8787   |
+| 2    | devi   | 6767   |
+| 3    | partha | 797897 |
+| 1    | Guhan  | 97981  |
+| 2    | Anbu   | 87657  |
++------+--------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]>

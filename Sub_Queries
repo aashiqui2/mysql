@@ -1,0 +1,382 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.17 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| agni               |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.05 sec)
+
+mysql> use agni;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_agni |
++----------------+
+| cse            |
++----------------+
+1 row in set (0.07 sec)
+
+mysql> create table emp (id int, emp_name varchar(30), mob varchar(20), salary varchar(30));
+Query OK, 0 rows affected (0.64 sec)
+
+mysql> insert into emp values(1,"Raja", 876575676, 12000);
+Query OK, 1 row affected (0.21 sec)
+
+mysql> insert into emp values(2,"Anbu", 876755467, 13000),(3, "Kesav" 675675675, 12500),(4,"Mahesh",754556787,14000),(5,"Kumar",675788784,15000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '675675675, 12500),(4,"Mahesh",754556787,14000),(5,"Kumar",675788784,15000)' at line 1
+mysql> insert into emp values(2,"Anbu", 876755467, 13000),(3, "Kesav", 675675675, 12500),(4,"Mahesh",754556787,14000),(5,"Kumar",675788784,15000);
+Query OK, 4 rows affected (0.13 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select max(salary) from emp;
++-------------+
+| max(salary) |
++-------------+
+| 15000       |
++-------------+
+1 row in set (0.04 sec)
+
+mysql> select id, emp_name, salary from emp where salary=(select max(salary) from emp);
++------+----------+--------+
+| id   | emp_name | salary |
++------+----------+--------+
+|    5 | Kumar    | 15000  |
++------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> -- second highest salary
+mysql> select id, emp_name, salary from emp where salary<>(select max(salary) from emp);
++------+----------+--------+
+| id   | emp_name | salary |
++------+----------+--------+
+|    1 | Raja     | 12000  |
+|    2 | Anbu     | 13000  |
+|    3 | Kesav    | 12500  |
+|    4 | Mahesh   | 14000  |
++------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select max(salary) from emp where salary<>(select max(salary) from emp);
++-------------+
+| max(salary) |
++-------------+
+| 14000       |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select id, name, max(salary) from emp where salary<>(select max(salary) from emp);
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select id, emp_name, max(salary) from emp where salary<>(select max(salary) from emp);
++------+----------+-------------+
+| id   | emp_name | max(salary) |
++------+----------+-------------+
+|    1 | Raja     | 14000       |
++------+----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select emp_name from emp where salary=(select max(salary) from emp where salary<>(select max(salary) from emp));
++----------+
+| emp_name |
++----------+
+| Mahesh   |
++----------+
+1 row in set (0.00 sec)
+
+mysql>
+
+
+mysql> insert into emp values(6,"Gokul",8723878989,13000);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into emp values(7,"Vimal",843783485,12000);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> select * from emp;
++------+----------+------------+--------+
+| id   | emp_name | mob        | salary |
++------+----------+------------+--------+
+|    1 | Raja     | 876575676  | 12000  |
+|    2 | Anbu     | 876755467  | 13000  |
+|    3 | Kesav    | 675675675  | 12500  |
+|    4 | Mahesh   | 754556787  | 14000  |
+|    5 | Kumar    | 675788784  | 15000  |
+|    6 | Gokul    | 8723878989 | 13000  |
+|    7 | Vimal    | 843783485  | 12000  |
++------+----------+------------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select salary, count(salary) from emp group by salary;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+| 12000  |             2 |
+| 13000  |             2 |
+| 12500  |             1 |
+| 14000  |             1 |
+| 15000  |             1 |
++--------+---------------+
+5 rows in set (0.03 sec)
+
+mysql> select salary, count(salary) from emp group by salary where count(salary)=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where count(salary)=2' at line 1
+mysql> select salary, count(salary) from emp group by salary having count(salary)=2;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+| 12000  |             2 |
+| 13000  |             2 |
++--------+---------------+
+2 rows in set (0.00 sec)
+
+
+mysql> select salary, count(salary) from emp group by salary having count(*)<2;
++--------+---------------+
+| salary | count(salary) |
++--------+---------------+
+| 12500  |             1 |
+| 14000  |             1 |
+| 15000  |             1 |
++--------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select salary from emp group by salary having count(*)=2;
++--------+
+| salary |
++--------+
+| 12000  |
+| 13000  |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name from emp where salary in (select salary from emp group by salary having count(*)=2);
++----------+
+| emp_name |
++----------+
+| Raja     |
+| Anbu     |
+| Gokul    |
+| Vimal    |
++----------+
+4 rows in set (0.00 sec)
+
+Update your table:-
+mysql> select * from emp;
++------+----------+------------+--------+------+
+| id   | emp_name | mob        | salary | dept |
++------+----------+------------+--------+------+
+|    1 | Raja     | 876575676  | 12000  | MRK  |
+|    2 | Anbu     | 876755467  | 13000  | IT   |
+|    3 | Kesav    | 675675675  | 12500  | HR   |
+|    4 | Mahesh   | 754556787  | 14000  | MRK  |
+|    5 | Kumar    | 675788784  | 15000  | HR   |
+|    6 | Gokul    | 8723878989 | 13000  | HR   |
+|    7 | Vimal    | 843783485  | 12000  | MRK  |
++------+----------+------------+--------+------+
+
+mysql> -- highest salary dept wise...
+mysql> select max(salary) from emp group by dept;
++-------------+
+| max(salary) |
++-------------+
+| 14000       |
+| 13000       |
+| 15000       |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select dept, max(salary) from emp group by dept;
++------+-------------+
+| dept | max(salary) |
++------+-------------+
+| MRK  | 14000       |
+| IT   | 13000       |
+| HR   | 15000       |
++------+-------------+
+3 rows in set (0.00 sec)
+
+
+mysql> select emp_name from emp where salary in (select max(salary) from emp group by dept);
++----------+
+| emp_name |
++----------+
+| Anbu     |
+| Mahesh   |
+| Kumar    |
+| Gokul    |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> select emp_name, dept from emp where salary in (select max(salary) from emp group by dept);
++----------+------+
+| emp_name | dept |
++----------+------+
+| Anbu     | IT   |
+| Mahesh   | MRK  |
+| Kumar    | HR   |
+| Gokul    | HR   |
++----------+------+
+4 rows in set (0.00 sec)
+
+
+------------------- using constraints --------------------------
+
+
+mysql> create table employee (id int auto_increment, primary key(id), name varchar(30), address varchar(30));
+
+mysql> insert into employee(name, address) values("Varun", "Delhi"),("Nithin","Pune"),("Robin","Bangalore");
+
+mysql> create table emp_project(id int, foreign key(id) references employee(id), pid varchar(30), primary key(pid), 
+pname varchar(30), location varchar(30));
+Query OK, 0 rows affected (0.74 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_agni |
++----------------+
+| cse            |
+| emp            |
+| emp_project    |
+| employee       |
+| project        |
++----------------+
+5 rows in set (0.06 sec)
+
+mysql> select * from employee;
++----+--------+-----------+
+| id | name   | address   |
++----+--------+-----------+
+|  1 | Ravi   | Chennai   |
+|  2 | Varun  | Delhi     |
+|  3 | Nithin | Pune      |
+|  4 | Robin  | Bangalore |
+|  5 | Raja   | Hydrabad  |
++----+--------+-----------+
+5 rows in set (0.09 sec)
+
+mysql> select * from emp_project;
++------+-----+---------+-----------+
+| id   | pid | pname   | location  |
++------+-----+---------+-----------+
+|    1 | p1  | IOT     | Bangalore |
+|    3 | p2  | BigData | Delhi     |
+|    2 | p3  | Retail  | Mumbai    |
+|    5 | p4  | Android | Chennai   |
++------+-----+---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select name from employee where id in (select id from emp_project);
++--------+
+| name   |
++--------+
+| Ravi   |
+| Varun  |
+| Nithin |
+| Raja   |
++--------+
+4 rows in set (0.02 sec)
+
+mysql> select name from employee where id not in (select id from emp_project);
++-------+
+| name  |
++-------+
+| Robin |
++-------+
+1 row in set (0.03 sec)
+
+
+
+mysql> select * from employee where exists (select id from emp_project where employee.id=emp_project.id);
++----+--------+----------+
+| id | name   | address  |
++----+--------+----------+
+|  1 | Ravi   | Chennai  |
+|  2 | Varun  | Delhi    |
+|  3 | Nithin | Pune     |
+|  5 | Raja   | Hydrabad |
++----+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp_project;
++------+-----+---------+-----------+
+| id   | pid | pname   | location  |
++------+-----+---------+-----------+
+|    1 | p1  | IOT     | Bangalore |
+|    3 | p2  | BigData | Delhi     |
+|    2 | p3  | Retail  | Mumbai    |
+|    5 | p4  | Android | Chennai   |
++------+-----+---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee where not exists (select id from emp_project where employee.id=emp_project.id);
++----+-------+-----------+
+| id | name  | address   |
++----+-------+-----------+
+|  4 | Robin | Bangalore |
++----+-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> create table project_details(id int, name varchar(30), address varchar(30));
+Query OK, 0 rows affected (0.57 sec)
+
+
+mysql> insert into project_details(id,name,address) select id, name, address from employee where exists (select id from emp_project where employee.id=emp_project.id);
+Query OK, 4 rows affected (0.16 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from project_details;
++------+--------+----------+
+| id   | name   | address  |
++------+--------+----------+
+|    1 | Ravi   | Chennai  |
+|    2 | Varun  | Delhi    |
+|    3 | Nithin | Pune     |
+|    5 | Raja   | Hydrabad |
++------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select location from emp_project union select address from project_details;
++-----------+
+| location  |
++-----------+
+| Bangalore |
+| Delhi     |
+| Mumbai    |
+| Chennai   |
+| Pune      |
+| Hydrabad  |
++-----------+
+6 rows in set (0.00 sec)
+
+mysql> select name from employee where address in (select location from emp_project union select address from project_details);
++--------+
+| name   |
++--------+
+| Ravi   |
+| Varun  |
+| Nithin |
+| Robin  |
+| Raja   |
++--------+
+5 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------

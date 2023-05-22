@@ -1,0 +1,104 @@
+MariaDB [test]> select * from emp_details;
++-------+---------+----------+------+
+| name  | mob     | city     | age  |
++-------+---------+----------+------+
+| Ram   | 98598   | chennai  | 35   |
+| Guhan | 8759876 | Madurai  | 27   |
+| Muthu | 98670   | Banglore | 30   |
++-------+---------+----------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> create table salary(name varchar(20), January varchar(20), Febru
+ary varchar(20));
+Query OK, 0 rows affected (0.33 sec)
+
+MariaDB [test]> insert into salary values("Naveen", "20000", "220000");
+Query OK, 1 row affected (0.14 sec)
+
+MariaDB [test]> insert into salary values("Ram", "16000", "16500");
+Query OK, 1 row affected (0.33 sec)
+
+MariaDB [test]> insert into salary values("Karthik", "19000", "20000");
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> insert into salary values("Muthu", "20000"," 18000");
+Query OK, 1 row affected (0.33 sec)
+
+MariaDB [test]> select * from salary;
++---------+---------+----------+
+| name    | January | February |
++---------+---------+----------+
+| Naveen  | 20000   | 220000   |
+| Ram     | 16000   | 16500    |
+| Karthik | 19000   | 20000    |
+| Muthu   | 20000   |  18000   |
++---------+---------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp_details inner join salary on emp_details.name=
+salary.name;
++-------+-------+----------+------+-------+---------+----------+
+| name  | mob   | city     | age  | name  | January | February |
++-------+-------+----------+------+-------+---------+----------+
+| Ram   | 98598 | chennai  | 35   | Ram   | 16000   | 16500    |
+| Muthu | 98670 | Banglore | 30   | Muthu | 20000   |  18000   |
++-------+-------+----------+------+-------+---------+----------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp_details left join salary on emp_details.name=s
+alary.name;
++-------+---------+----------+------+-------+---------+----------+
+| name  | mob     | city     | age  | name  | January | February |
++-------+---------+----------+------+-------+---------+----------+
+| Ram   | 98598   | chennai  | 35   | Ram   | 16000   | 16500    |
+| Muthu | 98670   | Banglore | 30   | Muthu | 20000   |  18000   |
+| Guhan | 8759876 | Madurai  | 27   | NULL  | NULL    | NULL     |
++-------+---------+----------+------+-------+---------+----------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp_details right join salary on emp_details.name=
+salary.name;
++-------+-------+----------+------+---------+---------+----------+
+| name  | mob   | city     | age  | name    | January | February |
++-------+-------+----------+------+---------+---------+----------+
+| Ram   | 98598 | chennai  | 35   | Ram     | 16000   | 16500    |
+| Muthu | 98670 | Banglore | 30   | Muthu   | 20000   |  18000   |
+| NULL  | NULL  | NULL     | NULL | Naveen  | 20000   | 220000   |
+| NULL  | NULL  | NULL     | NULL | Karthik | 19000   | 20000    |
++-------+-------+----------+------+---------+---------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp_details join salary on emp_details.name=salary
+.name;
++-------+-------+----------+------+-------+---------+----------+
+| name  | mob   | city     | age  | name  | January | February |
++-------+-------+----------+------+-------+---------+----------+
+| Ram   | 98598 | chennai  | 35   | Ram   | 16000   | 16500    |
+| Muthu | 98670 | Banglore | 30   | Muthu | 20000   |  18000   |
++-------+-------+----------+------+-------+---------+----------+
+2 rows in set (0.09 sec)
+
+MariaDB [test]> select * from emp_details left outer join salary on emp_details.
+name=salary.name;
++-------+---------+----------+------+-------+---------+----------+
+| name  | mob     | city     | age  | name  | January | February |
++-------+---------+----------+------+-------+---------+----------+
+| Ram   | 98598   | chennai  | 35   | Ram   | 16000   | 16500    |
+| Muthu | 98670   | Banglore | 30   | Muthu | 20000   |  18000   |
+| Guhan | 8759876 | Madurai  | 27   | NULL  | NULL    | NULL     |
++-------+---------+----------+------+-------+---------+----------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp_details right outer join salary on emp_details
+.name=salary.name;
++-------+-------+----------+------+---------+---------+----------+
+| name  | mob   | city     | age  | name    | January | February |
++-------+-------+----------+------+---------+---------+----------+
+| Ram   | 98598 | chennai  | 35   | Ram     | 16000   | 16500    |
+| Muthu | 98670 | Banglore | 30   | Muthu   | 20000   |  18000   |
+| NULL  | NULL  | NULL     | NULL | Naveen  | 20000   | 220000   |
+| NULL  | NULL  | NULL     | NULL | Karthik | 19000   | 20000    |
++-------+-------+----------+------+---------+---------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]>

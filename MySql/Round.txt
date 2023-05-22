@@ -1,0 +1,177 @@
+Round:
+      This will rounds numbers to a given number of digits of precision.
+  
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> select round(222.435) from dual;
++----------------+
+| round(222.435) |
++----------------+
+|            222 |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,3) from dual;
++--------------------+
+| round(222.43534,3) |
++--------------------+
+|            222.435 |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,2) from dual;
++--------------------+
+| round(222.43534,2) |
++--------------------+
+|             222.44 |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,-2) from dual;
++---------------------+
+| round(222.43534,-2) |
++---------------------+
+|                 200 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,-4) from dual;
++---------------------+
+| round(222.43534,-4) |
++---------------------+
+|                   0 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,0) from dual;
++--------------------+
+| round(222.43534,0) |
++--------------------+
+|                222 |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,-1) from dual;
++---------------------+
+| round(222.43534,-1) |
++---------------------+
+|                 220 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222.43534,-3) from dual;
++---------------------+
+| round(222.43534,-3) |
++---------------------+
+|                   0 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>
+
+MariaDB [test]> select round(222.43534,6) from dual;
++--------------------+
+| round(222.43534,6) |
++--------------------+
+|         222.435340 |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>
+MariaDB [test]> select round(222,0) from dual;
++--------------+
+| round(222,0) |
++--------------+
+|          222 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222,1) from dual;
++--------------+
+| round(222,1) |
++--------------+
+|          222 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(222,-1) from dual;
++---------------+
+| round(222,-1) |
++---------------+
+|           220 |
++---------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-222,0) from dual;
++---------------+
+| round(-222,0) |
++---------------+
+|          -222 |
++---------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-222,-1) from dual;
++----------------+
+| round(-222,-1) |
++----------------+
+|           -220 |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-222,-2) from dual;
++----------------+
+| round(-222,-2) |
++----------------+
+|           -200 |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(0,0) from dual;
++------------+
+| round(0,0) |
++------------+
+|          0 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(1,1) from dual;
++------------+
+| round(1,1) |
++------------+
+|          1 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-1,-1) from dual;
++--------------+
+| round(-1,-1) |
++--------------+
+|            0 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-2,-2) from dual;
++--------------+
+| round(-2,-2) |
++--------------+
+|            0 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-2,1) from dual;
++-------------+
+| round(-2,1) |
++-------------+
+|          -2 |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select round(-2,0) from dual;
++-------------+
+| round(-2,0) |
++-------------+
+|          -2 |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>

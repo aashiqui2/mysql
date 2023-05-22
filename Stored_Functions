@@ -1,0 +1,52 @@
+---------------------------------------------------------
+CREATE FUNCTION function_name(param1,param2,…)
+    RETURNS datatype
+   [NOT] DETERMINISTIC
+ statements
+---------------------------------------------------------
+mysql> select * from customers//
++----------------+-------------+-------------+
+| customerNumber | creditlimit | countryName |
++----------------+-------------+-------------+
+|           1001 |       10000 | USA         |
+|           1002 |       20000 | INDIA       |
+|           1003 |       40000 | CANADA      |
+|           1004 |       50000 | PAKISTAN    |
+|           1005 |       60000 | SRILANKA    |
+|           1006 |        2000 | CHINA       |
++----------------+-------------+-------------+
+6 rows in set (0.00 sec)
+
+
+mysql> create function cusLevel(cusLimit double)
+    -> returns varchar(30)
+    -> deterministic
+    -> begin
+    -> declare cusStatus varchar(30);
+    -> if cusLimit > 50000 then
+    -> set cusStatus='PLATINUM';
+    -> elseif (cusLimit<=50000 and cusLimit>20000) then
+    -> set cusStatus='GOLD';
+    -> elseif (cusLimit<20000) then
+    -> set cusStatus='SILVER';
+    -> end if;
+    -> return cusStatus;
+    -> end//
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> select creditlimit, cusLevel(creditlimit) from customers//
++-------------+-----------------------+
+| creditlimit | cusLevel(creditlimit) |
++-------------+-----------------------+
+|       10000 | SILVER                |
+|       20000 | NULL                  |
+|       40000 | GOLD                  |
+|       50000 | GOLD                  |
+|       60000 | PLATINUM              |
+|        2000 | SILVER                |
++-------------+-----------------------+
+6 rows in set (0.00 sec)
+
+mysql>
+
+--------------------------------------------------------------------------

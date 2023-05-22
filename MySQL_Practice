@@ -1,0 +1,313 @@
+mysql> create table programmer(EmpNo int, LatsName varchar(30), FirstName varchar(30), HireDate date,
+    -> ProjId varchar(30), Language varchar(30), TaskNo int, Privilege varchar(30));
+Query OK, 0 rows affected (0.79 sec)
+
+mysql> insert into programmer values(201,"Gupta","Saurav","19950101","NPR","VB",52,"Secret");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into programmer values(390,"Ghos","Pinky","19930501","KCW","JAVA",11,"TopSecret");
+Query OK, 1 row affected (0.20 sec)
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+| EmpNo | LatsName | FirstName | HireDate   | ProjId | Language | TaskNo | Privilege |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+|   201 | Gupta    | Saurav    | 1995-01-01 | NPR    | VB       |     52 | Secret    |
+|   390 | Ghos     | Pinky     | 1993-05-01 | KCW    | JAVA     |     11 | TopSecret |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+
+mysql> insert into programmer values(345,"John","Peter","19991211","NITTS","JAVA",52,"Secret");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+| EmpNo | LatsName | FirstName | HireDate   | ProjId | Language | TaskNo | Privilege |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+|   201 | Gupta    | Saurav    | 1995-01-01 | NPR    | VB       |     52 | Secret    |
+|   390 | Ghos     | Pinky     | 1993-05-01 | KCW    | JAVA     |     11 | TopSecret |
+|   345 | John     | Peter     | 1999-12-11 | NITTS  | JAVA     |     52 | Secret    |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> update programmer set ProjId="KWPS" where EmpNo=345;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+| EmpNo | LatsName | FirstName | HireDate   | ProjId | Language | TaskNo | Privilege |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+|   201 | Gupta    | Saurav    | 1995-01-01 | NPR    | VB       |     52 | Secret    |
+|   390 | Ghos     | Pinky     | 1993-05-01 | KCW    | JAVA     |     11 | TopSecret |
+|   345 | John     | Peter     | 1999-12-11 | KWPS   | JAVA     |     52 | Secret    |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> delete from programmer where EmpNo=390;
+Query OK, 1 row affected (0.18 sec)
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+| EmpNo | LatsName | FirstName | HireDate   | ProjId | Language | TaskNo | Privilege |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+|   201 | Gupta    | Saurav    | 1995-01-01 | NPR    | VB       |     52 | Secret    |
+|   345 | John     | Peter     | 1999-12-11 | KWPS   | JAVA     |     52 | Secret    |
++-------+----------+-----------+------------+--------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> alter table programmer drop column TaskNo;
+Query OK, 0 rows affected (1.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+------------+--------+----------+-----------+
+|   201 | Gupta    | Saurav    | 1995-01-01 | NPR    | VB       | Secret    |
+|   345 | John     | Peter     | 1999-12-11 | KWPS   | JAVA     | Secret    |
++-------+----------+-----------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> alter table programmer modify EmpNo int(8);
+Query OK, 0 rows affected, 1 warning (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc programmer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| EmpNo     | int(8)      | YES  |     | NULL    |       |
+| LatsName  | varchar(30) | YES  |     | NULL    |       |
+| FirstName | varchar(30) | YES  |     | NULL    |       |
+| HireDate  | date        | YES  |     | NULL    |       |
+| ProjId    | varchar(30) | YES  |     | NULL    |       |
+| Language  | varchar(30) | YES  |     | NULL    |       |
+| Privilege | varchar(30) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.06 sec)
+
+mysql> alter table programmer add mob varchar(20) after FirstName;
+Query OK, 0 rows affected (1.25 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from programmer;
++-------+----------+-----------+------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob  | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+------+------------+--------+----------+-----------+
+|   201 | Gupta    | Saurav    | NULL | 1995-01-01 | NPR    | VB       | Secret    |
+|   345 | John     | Peter     | NULL | 1999-12-11 | KWPS   | JAVA     | Secret    |
++-------+----------+-----------+------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> update programmer set mob=786798687 where EmpNo=201;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update programmer set mob=46776976 where EmpNo=345;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from programmer;
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob       | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+|   201 | Gupta    | Saurav    | 786798687 | 1995-01-01 | NPR    | VB       | Secret    |
+|   345 | John     | Peter     | 46776976  | 1999-12-11 | KWPS   | JAVA     | Secret    |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> update programmer set EmpNo=EmpNo+5 where Language="VB";
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from programmer;
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob       | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+|   206 | Gupta    | Saurav    | 786798687 | 1995-01-01 | NPR    | VB       | Secret    |
+|   345 | John     | Peter     | 46776976  | 1999-12-11 | KWPS   | JAVA     | Secret    |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into programmer(EmpNo) values(208);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into programmer(EmpNo) values(210);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into programmer(EmpNo) values(222);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into programmer(EmpNo) values(235);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select* from programmer;
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob       | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+|   206 | Gupta    | Saurav    | 786798687 | 1995-01-01 | NPR    | VB       | Secret    |
+|   345 | John     | Peter     | 46776976  | 1999-12-11 | KWPS   | JAVA     | Secret    |
+|   208 | NULL     | NULL      | NULL      | NULL       | NULL   | NULL     | NULL      |
+|   210 | NULL     | NULL      | NULL      | NULL       | NULL   | NULL     | NULL      |
+|   222 | NULL     | NULL      | NULL      | NULL       | NULL   | NULL     | NULL      |
+|   235 | NULL     | NULL      | NULL      | NULL       | NULL   | NULL     | NULL      |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+6 rows in set (0.02 sec)
+
+mysql> delete from programmer where EmpNo>208;
+Query OK, 4 rows affected (0.19 sec)
+
+mysql> select * from programmer;
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob       | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+|   206 | Gupta    | Saurav    | 786798687 | 1995-01-01 | NPR    | VB       | Secret    |
+|   208 | NULL     | NULL      | NULL      | NULL       | NULL   | NULL     | NULL      |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+mysql> select * from programmer;
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob       | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+|   206 | Gupta    | Saurav    | 786798687 | 1995-01-01 | NPR    | VB       | Secret    |
+|   208 | NULL     | NULL      | NULL      | NULL       | NULL   | NULL     | NULL      |
++-------+----------+-----------+-----------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+
+mysql> update programmer set LatsName="Kumar", FirstName="Jayam", mob=7868777878, HireDate="19980305",
+    -> projId="KBL",Language="JAVA", Privilege="TopSecret";
+Query OK, 2 rows affected (0.10 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob        | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+|   206 | Kumar    | Jayam     | 7868777878 | 1998-03-05 | KBL    | JAVA     | TopSecret |
+|   208 | Kumar    | Jayam     | 7868777878 | 1998-03-05 | KBL    | JAVA     | TopSecret |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> update programmer set LatsName="Kesav", FirstName="Ganesh", mob=7687687445, HireDate="19980307",
+    -> projId="MKV",Language="C++", Privilege="TopSecret" where EmpNo=208;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob        | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+|   206 | Kumar    | Jayam     | 7868777878 | 1998-03-05 | KBL    | JAVA     | TopSecret |
+|   208 | Kesav    | Ganesh    | 7687687445 | 1998-03-07 | MKV    | C++      | TopSecret |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql>
+
+
+-------------------------------------------------------------------------------------
+
+mysql> select * from programmer where EmpNo=206 or Language="C++";
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob        | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+|   206 | Kumar    | Jayam     | 7868777878 | 1998-03-05 | KBL    | JAVA     | TopSecret |
+|   208 | Kesav    | Ganesh    | 7687687445 | 1998-03-07 | MKV    | C++      | TopSecret |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select length(FirstName) as length from programmer;
++--------+
+| length |
++--------+
+|      5 |
+|      6 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select curtime() as timing;
++----------+
+| timing   |
++----------+
+| 15:41:02 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select curdate() as timing;
++------------+
+| timing     |
++------------+
+| 2019-08-23 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select * from programmer;
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+| EmpNo | LatsName | FirstName | mob        | HireDate   | ProjId | Language | Privilege |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+|   206 | Kumar    | Jayam     | 7868777878 | 1998-03-05 | KBL    | JAVA     | TopSecret |
+|   208 | Kesav    | Ganesh    | 7687687445 | 1998-03-07 | MKV    | C++      | TopSecret |
++-------+----------+-----------+------------+------------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select year(HireDate)-1996 as age from programmer;
++------+
+| age  |
++------+
+|    2 |
+|    2 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select last_day("1995-06-05") as day;
++------------+
+| day        |
++------------+
+| 1995-06-30 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select day(last_day("1995-06-05")) as day;
++------+
+| day  |
++------+
+|   30 |
++------+
+1 row in set (0.03 sec)
+
+mysql> select from_days("19950607")-from_days("19960503") as result;
++--------+
+| result |
++--------+
+|      0 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select from_days("19950607") as result;
++------------+
+| result     |
++------------+
+| 0000-00-00 |
++------------+
+1 row in set (0.00 sec)
+
+
+mysql> select datediff("1995-07-05","1996-04-05") as result;
++--------+
+| result |
++--------+
+|   -275 |
++--------+
+1 row in set (0.04 sec)
+
+-----------------------------------------------------------------------

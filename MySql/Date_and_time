@@ -1,0 +1,150 @@
+MariaDB [test]> create table ex1( name varchar(30), timing TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+Query OK, 0 rows affected (0.26 sec)
+
+MariaDB [test]> desc ex1;
++--------+-------------+------+-----+-------------------+-------+
+| Field  | Type        | Null | Key | Default           | Extra |
++--------+-------------+------+-----+-------------------+-------+
+| name   | varchar(30) | YES  |     | NULL              |       |
+| timing | timestamp   | NO   |     | CURRENT_TIMESTAMP |       |
++--------+-------------+------+-----+-------------------+-------+
+2 rows in set (0.07 sec)
+
+MariaDB [test]> insert into ex1(name) values("Guhan");
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [test]> select * from ex1;
++-------+---------------------+
+| name  | timing              |
++-------+---------------------+
+| Guhan | 2018-08-25 08:07:27 |
++-------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select name from ex1 where timing="2018-08-25 08:07:27";
++-------+
+| name  |
++-------+
+| Guhan |
++-------+
+1 row in set (0.00 sec)
+
+------------------------Date--------------------------------------------
+
+MariaDB [test]> create table ex2( name varchar(30), timing date);
+Query OK, 0 rows affected (0.29 sec)
+
+MariaDB [test]> insert into ex2(name) values("anbu");
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from ex2;
++------+--------+
+| name | timing |
++------+--------+
+| anbu | NULL   |
++------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> insert into ex2 values("Guhan","2018-08-25");
+Query OK, 1 row affected (0.10 sec)
+
+MariaDB [test]> select * from ex2;
++-------+------------+
+| name  | timing     |
++-------+------------+
+| anbu  | NULL       |
+| Guhan | 2018-08-25 |
++-------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> update ex2 set timing="2017-06-05" where name="anbu";
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test]> select * from ex2;
++-------+------------+
+| name  | timing     |
++-------+------------+
+| anbu  | 2017-06-05 |
+| Guhan | 2018-08-25 |
++-------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from ex2 where month(timing)=6;
++------+------------+
+| name | timing     |
++------+------------+
+| anbu | 2017-06-05 |
++------+------------+
+1 row in set (0.04 sec)
+
+MariaDB [test]> select * from ex2 where month(timing)=8;
++-------+------------+
+| name  | timing     |
++-------+------------+
+| Guhan | 2018-08-25 |
++-------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from ex2 where dayofmonth(timing)=25;
++-------+------------+
+| name  | timing     |
++-------+------------+
+| Guhan | 2018-08-25 |
++-------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from ex2 where year(timing)=2017;
++------+------------+
+| name | timing     |
++------+------------+
+| anbu | 2017-06-05 |
++------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from ex1;
++-------+---------------------+
+| name  | timing              |
++-------+---------------------+
+| Guhan | 2018-08-25 08:07:27 |
++-------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> insert into ex1(name) values("Anbu");
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from ex1;
++-------+---------------------+
+| name  | timing              |
++-------+---------------------+
+| Guhan | 2018-08-25 08:07:27 |
+| Anbu  | 2018-08-25 08:18:59 |
++-------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from ex1 where hour(timing)=8;
++-------+---------------------+
+| name  | timing              |
++-------+---------------------+
+| Guhan | 2018-08-25 08:07:27 |
+| Anbu  | 2018-08-25 08:18:59 |
++-------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from ex1 where minute(timing)=7;
++-------+---------------------+
+| name  | timing              |
++-------+---------------------+
+| Guhan | 2018-08-25 08:07:27 |
++-------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from ex1 where second(timing)=59;
++------+---------------------+
+| name | timing              |
++------+---------------------+
+| Anbu | 2018-08-25 08:18:59 |
++------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>

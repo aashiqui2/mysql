@@ -1,0 +1,147 @@
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+--------+
+| No   | id   | trainee | course |
++------+------+---------+--------+
+| 1    | py1  | Anbu    | NULL   |
+| 2    | py2  | kathir  | Java   |
+| 3    | py3  | Rajesh  | Php    |
++------+------+---------+--------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> insert into payilagam1 values(4, "py3", "Kumar", "Android");
+Query OK, 1 row affected (0.07 sec)
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+---------+
+| No   | id   | trainee | course  |
++------+------+---------+---------+
+| 1    | py1  | Anbu    | NULL    |
+| 2    | py2  | kathir  | Java    |
+| 3    | py3  | Rajesh  | Php     |
+| 4    | py3  | Kumar   | Android |
++------+------+---------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> insert into payilagam1 values(5, "py5", "Anbu", "Php");
+Query OK, 1 row affected (0.31 sec)
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+---------+
+| No   | id   | trainee | course  |
++------+------+---------+---------+
+| 1    | py1  | Anbu    | NULL    |
+| 2    | py2  | kathir  | Java    |
+| 3    | py3  | Rajesh  | Php     |
+| 4    | py3  | Kumar   | Android |
+| 5    | py5  | Anbu    | Php     |
++------+------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select distinct trainee from payilagam1;
++---------+
+| trainee |
++---------+
+| Anbu    |
+| kathir  |
+| Rajesh  |
+| Kumar   |
++---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select distinct trainee, course from payilagam1;
++---------+---------+
+| trainee | course  |
++---------+---------+
+| Anbu    | NULL    |
+| kathir  | Java    |
+| Rajesh  | Php     |
+| Kumar   | Android |
+| Anbu    | Php     |
++---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 where (trainee="kathir") or (trai
+nee="kumar");
++---------+
+| trainee |
++---------+
+| kathir  |
+| Kumar   |
++---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 order by mob;
+ERROR 1054 (42S22): Unknown column 'mob' in 'order clause'
+MariaDB [test]> select trainee from payilagam1 order by course;
++---------+
+| trainee |
++---------+
+| Anbu    |
+| Kumar   |
+| kathir  |
+| Rajesh  |
+| Anbu    |
++---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 where trainee like "%a";
+Empty set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 where trainee like "a%";
++---------+
+| trainee |
++---------+
+| Anbu    |
+| Anbu    |
++---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 where trainee like "%ar";
++---------+
+| trainee |
++---------+
+| Kumar   |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 where trainee like "%th%";
++---------+
+| trainee |
++---------+
+| kathir  |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select trainee from payilagam1 where trainee like "_____";
++---------+
+| trainee |
++---------+
+| Kumar   |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select trainee, count(*) from payilagam1;
++---------+----------+
+| trainee | count(*) |
++---------+----------+
+| Anbu    |        5 |
++---------+----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select trainee, count(*) from payilagam1 group by trainee;
++---------+----------+
+| trainee | count(*) |
++---------+----------+
+| Anbu    |        2 |
+| kathir  |        1 |
+| Kumar   |        1 |
+| Rajesh  |        1 |
++---------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]>
+
+
+

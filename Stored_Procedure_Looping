@@ -1,0 +1,102 @@
+-----------------------
+WHILE expression DO
+   statements
+END WHILE
+-----------------------
+
+mysql> drop procedure if exists getData//
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> create procedure myLooping()
+    -> begin
+    -> declare x int;
+    -> declare result varchar(200);
+    -> set x=1;
+    -> set result='';
+    -> while x<=5 do
+    -> set result =concat(result,x,',');
+    -> set x=x+1;
+    -> end while;
+    -> select result;
+    -> end//
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> call myLooping()//
++------------+
+| result     |
++------------+
+| 1,2,3,4,5, |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------------------------------------------------------------
+
+-- 
+REPEAT
+ statements;
+UNTIL expression
+END REPEAT
+--
+
+mysql> drop procedure if exists MyLooping//
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> create procedure myLooping()
+    -> begin
+    -> declare x int;
+    -> declare result varchar(200);
+    -> set x=1;
+    -> set result='';
+    -> repeat
+    -> set result=concat(result,x,',');
+    -> set x=x+1;
+    -> until x>5
+    -> end repeat;
+    -> select result;
+    -> end//
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> call myLooping()//
++------------+
+| result     |
++------------+
+| 1,2,3,4,5, |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+------------------------------------- LOOP, LEAVE and ITERATE statements -------------------------------
+
+mysql> create procedure myLooping()
+    -> begin
+    -> declare x int;
+    -> declare result varchar(200);
+    -> set x=1;
+    -> set result='';
+    -> loop_label: loop
+    -> if x>10 then
+    -> leave loop_label;
+    -> end if;
+    -> set x=x+1;
+    -> if(x mod 2 ) then
+    -> iterate loop_label;
+    -> else
+    -> set result=concat(result, x, ',');
+    -> end if;
+    -> end loop;
+    -> select result;
+    -> end//
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> call myLooping()//
++-------------+
+| result      |
++-------------+
+| 2,4,6,8,10, |
++-------------+
+1 row in set (0.00 sec)
+
+-----------------------------------------------------------------

@@ -1,0 +1,170 @@
+A trigger is a set of SQL statements that is invoked automatically when a change is made to the data on the associated table. 
+A trigger can be defined to be invoked either before or after the data is changed by INSERT, UPDATE or DELETE statement. 
+
+BEFORE INSERT – activated before data is inserted into the table.
+AFTER INSERT – activated after data is inserted into the table.
+BEFORE UPDATE – activated before data in the table is updated.
+AFTER UPDATE – activated after data in the table is updated.
+BEFORE DELETE – activated before data is removed from the table.
+AFTER DELETE – activated after data is removed from the table.
+
+----------------------
+Syntax:-
+CREATE TRIGGER trigger_name trigger_time trigger_event
+ ON table_name
+ FOR EACH ROW
+ BEGIN
+ ...
+ END;
+-------------------------------- BEFORE INSERT ----------------------------------
+
+mysql> create table people(age int, name varchar(30));
+    -> //
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> create trigger agecheck
+    -> before insert on people
+    -> for each row
+    -> if new.age<0 then
+    -> set new.age=0;
+    -> end if;
+    -> //
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> insert into people values(-30,'Raja'),(20,'Kumar');
+    -> //
+Query OK, 2 rows affected (0.15 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from people//
++------+-------+
+| age  | name  |
++------+-------+
+|    0 | Raja  |
+|   20 | Kumar |
++------+-------+
+2 rows in set (0.00 sec)
+
+----------------------------------- AFTER INSERT ---------------------------
+mysql> select * from employee//
++----+--------+----------+
+| id | name   | address  |
++----+--------+----------+
+|  1 | Ravi   | Chennai  |
+|  2 | Varun  | Delhi    |
+|  3 | Nithin | Pune     |
+|  4 | Robin  | Chennai  |
+|  5 | Raja   | Hydrabad |
++----+--------+----------+
+5 rows in set (0.03 sec)
+
+mysql> create table emp_log(id int, name varchar(30), timing time);//
+Query OK, 0 rows affected (0.50 sec)
+
+mysql> create trigger mytrig
+    -> after insert on employee
+    -> for each row
+    -> begin
+    -> insert into emp_log values(new.id, new.name, curtime());
+    -> end//
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> insert into employee values(6, "Kumar", "Pune");//
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from emp_log//
++------+-------+----------+
+| id   | name  | timing   |
++------+-------+----------+
+|    6 | Kumar | 11:37:54 |
++------+-------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee//
++----+--------+----------+
+| id | name   | address  |
++----+--------+----------+
+|  1 | Ravi   | Chennai  |
+|  2 | Varun  | Delhi    |
+|  3 | Nithin | Pune     |
+|  4 | Robin  | Chennai  |
+|  5 | Raja   | Hydrabad |
+|  6 | Kumar  | Pune     |
++----+--------+----------+
+6 rows in set (0.00 sec)
+
+------------------------------ AFTER UPDATE -------------------------------------------
+
+mysql> create table emp_log
+    -> (user_id varchar(30),
+    -> description varchar(200)
+    -> );//
+Query OK, 0 rows affected (0.45 sec)
+
+mysql> create trigger updateTrigger
+    -> after update on employee
+    -> for each row
+    -> begin
+    -> insert into emp_log(user_id,description)
+    -> values(user(),concat('Id with: ',new.id,' is modified ',
+    -> 'at',curtime()));
+    -> end//
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> update employee set name="Rojith" where id=6;//
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+mysql> select * from emp_log//
++----------------+-----------------------------------+
+| user_id        | description                       |
++----------------+-----------------------------------+
+| root@localhost | Id with: 6 is modified at11:50:56 |
++----------------+-----------------------------------+
+1 row in set (0.00 sec)
+
+
+---------------------------------BEFORE UPDATE ----------------------------------------------
+
+mysql> create table emp_log1(user varchar(50), timing time);;//
+Query OK, 0 rows affected (0.44 sec)
+
+
+mysql> create trigger beforeTrig
+    -> before update on employee
+    -> for each row
+    -> begin
+    -> insert into emp_log1(user,timing)
+    -> values(user(), curtime());
+    -> end//
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> update employee set name="Arun" where id=6;//
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+mysql> select * from emp_log1//
++----------------+----------+
+| user           | timing   |
++----------------+----------+
+| root@localhost | 12:00:45 |
++----------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee//
++----+--------+----------+
+| id | name   | address  |
++----+--------+----------+
+|  1 | Ravi   | Chennai  |
+|  2 | Varun  | Delhi    |
+|  3 | Nithin | Pune     |
+|  4 | Robin  | Chennai  |
+|  5 | Raja   | Hydrabad |
+|  6 | Arun   | Pune     |
++----+--------+----------+
+6 rows in set (0.00 sec)
+
+
+--------------------------------------------------------------------------------------------

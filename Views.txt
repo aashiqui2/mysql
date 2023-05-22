@@ -1,0 +1,40 @@
+MariaDB [(none)]> use test
+Database changed
+
+MariaDB [test]> create table data (id varchar(30), name varchar(30), mobile varc
+har(30), age varchar(30), course varchar(30));
+Query OK, 0 rows affected (0.57 sec)
+
+MariaDB [test]> insert into data values(1, "muruga", 8968698, 27, "PHP");
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [test]> select * from data;
++------+--------+---------+------+--------+
+| id   | name   | mobile  | age  | course |
++------+--------+---------+------+--------+
+| 1    | muruga | 8968698 | 27   | PHP    |
++------+--------+---------+------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select name, mobile, age from data;
++--------+---------+------+
+| name   | mobile  | age  |
++--------+---------+------+
+| muruga | 8968698 | 27   |
++--------+---------+------+
+1 row in set (0.00 sec)
+
+-----------------------------VIEW----------------------------------
+
+MariaDB [test]> create view myv1 as select name, mobile, age from data;
+Query OK, 0 rows affected (0.09 sec)
+
+MariaDB [test]> select * from myv1;
++--------+---------+------+
+| name   | mobile  | age  |
++--------+---------+------+
+| muruga | 8968698 | 27   |
++--------+---------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>

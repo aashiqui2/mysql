@@ -1,0 +1,379 @@
+
+MariaDB [test]> select * from emp;
++------+------+------+
+| id   | name | mob  |
++------+------+------+
+| 1    | Dina | 8787 |
+| 2    | devi | 6767 |
++------+------+------+
+
+
+
+MariaDB [test]> select * from salary;
++------+---------+--------+
+| id   | name    | amount |
++------+---------+--------+
+| 1    | Dina    | 15000  |
+| 2    | Ramesh  | 20000  |
+| 3    | devi    | 22000  |
+| 4    | karthik | 24000  |
+| 5    | Tamil   | 26000  |
++------+---------+--------+
+
+
+MariaDB [test]> select count(name) from salary;
++-------------+
+| count(name) |
++-------------+
+|           5 |
++-------------+
+
+
+MariaDB [test]> select sum(amount) from salary;
++-------------+
+| sum(amount) |
++-------------+
+|      107000 |
++-------------+
+
+
+MariaDB [test]> select avg(amount) from salary;
++-------------+
+| avg(amount) |
++-------------+
+|       21400 |
++-------------+
+
+
+
+MariaDB [test]> select * from salary;
++------+---------+--------+---------+
+| id   | name    | amount | amount1 |
++------+---------+--------+---------+
+| 1    | Dina    | 15000  | 20000   |
+| 2    | Ramesh  | 20000  | 2000    |
+| 3    | devi    | 22000  | 3000    |
+| 4    | karthik | 24000  | 2000    |
+| 5    | Tamil   | 26000  | 1000    |
++------+---------+--------+---------+
+
+
+MariaDB [test]> select sum(salary.amount+salary.amount1) as total from salary;
++--------+
+| total  |
++--------+
+| 135000 |
++--------+
+
+MariaDB [test]> select sum(salary.amount-salary.amount1) as total from salary;
++-------+
+| total |
++-------+
+| 79000 |
++-------+
+
+
+MariaDB [test]> update salary set amount2=20000 where id=2;
+
+
+MariaDB [test]> select * from salary;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Tamil   | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salary where amount1=20000 and amount2=20000;
++------+--------+---------+---------+
+| id   | name   | amount1 | amount2 |
++------+--------+---------+---------+
+|    2 | Ramesh | 20000   | 20000   |
++------+--------+---------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from salary where amount1=15000 or amount2=20000;
++------+--------+---------+---------+
+| id   | name   | amount1 | amount2 |
++------+--------+---------+---------+
+|    1 | Dina   | 15000   | 20000   |
+|    2 | Ramesh | 20000   | 20000   |
++------+--------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]>
+
+MariaDB [test]> select * from salaryy;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Tamil   | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select distinct amount2 from salaryy;
++---------+
+| amount2 |
++---------+
+| 20000   |
+| 3000    |
+| 2000    |
+| 1000    |
++---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy group by amount2;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    5 | Tamil   | 26000   | 1000    |
+|    4 | karthik | 24000   | 2000    |
+|    1 | Dina    | 15000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
++------+---------+---------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy group by name;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    3 | devi    | 22000   | 3000    |
+|    1 | Dina    | 15000   | 20000   |
+|    4 | karthik | 24000   | 2000    |
+|    2 | Ramesh  | 20000   | 20000   |
+|    5 | Tamil   | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select amount2, count(*) from salaryy;
++---------+----------+
+| amount2 | count(*) |
++---------+----------+
+| 20000   |        5 |
++---------+----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> update salaryy set name="Dina" where id=5;
+Query OK, 1 row affected (0.32 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test]> select * from salaryy;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Dina    | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select name, count(*) from salaryy group by name;
++---------+----------+
+| name    | count(*) |
++---------+----------+
+| devi    |        1 |
+| Dina    |        2 |
+| karthik |        1 |
+| Ramesh  |        1 |
++---------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy limit 2;
++------+--------+---------+---------+
+| id   | name   | amount1 | amount2 |
++------+--------+---------+---------+
+|    1 | Dina   | 15000   | 20000   |
+|    2 | Ramesh | 20000   | 20000   |
++------+--------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy order by amount1;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Dina    | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+
+MariaDB [test]> select * from salaryy order by amount1 asc;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Dina    | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy order by amount1 desc;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    5 | Dina    | 26000   | 1000    |
+|    4 | karthik | 24000   | 2000    |
+|    3 | devi    | 22000   | 3000    |
+|    2 | Ramesh  | 20000   | 20000   |
+|    1 | Dina    | 15000   | 20000   |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy order by amount1 desc limit 3;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    5 | Dina    | 26000   | 1000    |
+|    4 | karthik | 24000   | 2000    |
+|    3 | devi    | 22000   | 3000    |
++------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where amount1 in ( 22000, 26000);
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    3 | devi | 22000   | 3000    |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where amount1 not  in ( 22000, 26000);
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    4 | karthik | 24000   | 2000    |
++------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where amount1<22000;
++------+--------+---------+---------+
+| id   | name   | amount1 | amount2 |
++------+--------+---------+---------+
+|    1 | Dina   | 15000   | 20000   |
+|    2 | Ramesh | 20000   | 20000   |
++------+--------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where amount1>22000;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    4 | karthik | 24000   | 2000    |
+|    5 | Dina    | 26000   | 1000    |
++------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where amount1 between 22000 and 26000;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Dina    | 26000   | 1000    |
++------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy;
++------+---------+---------+---------+
+| id   | name    | amount1 | amount2 |
++------+---------+---------+---------+
+|    1 | Dina    | 15000   | 20000   |
+|    2 | Ramesh  | 20000   | 20000   |
+|    3 | devi    | 22000   | 3000    |
+|    4 | karthik | 24000   | 2000    |
+|    5 | Dina    | 26000   | 1000    |
++------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name like "Di%";
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    1 | Dina | 15000   | 20000   |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name like "%sh";
++------+--------+---------+---------+
+| id   | name   | amount1 | amount2 |
++------+--------+---------+---------+
+|    2 | Ramesh | 20000   | 20000   |
++------+--------+---------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name like "%in%";
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    1 | Dina | 15000   | 20000   |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name like "____";
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    1 | Dina | 15000   | 20000   |
+|    3 | devi | 22000   | 3000    |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name regexp "^Di";
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    1 | Dina | 15000   | 20000   |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name regexp "sh$";
++------+--------+---------+---------+
+| id   | name   | amount1 | amount2 |
++------+--------+---------+---------+
+|    2 | Ramesh | 20000   | 20000   |
++------+--------+---------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name regexp
+    -> "ina";
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    1 | Dina | 15000   | 20000   |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from salaryy where name regexp "^....$";
++------+------+---------+---------+
+| id   | name | amount1 | amount2 |
++------+------+---------+---------+
+|    1 | Dina | 15000   | 20000   |
+|    3 | devi | 22000   | 3000    |
+|    5 | Dina | 26000   | 1000    |
++------+------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]>

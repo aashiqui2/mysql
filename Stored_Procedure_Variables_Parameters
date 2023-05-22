@@ -1,0 +1,150 @@
+mysql> use agni;
+Database changed
+mysql> delimiter //
+mysql> show tables;
+    -> //
++-----------------+
+| Tables_in_agni  |
++-----------------+
+| cse             |
+| emp             |
+| emp_project     |
+| employee        |
+| project         |
+| project_details |
++-----------------+
+6 rows in set (0.07 sec)
+
+mysql> create procedure getData()
+    -> begin
+    -> select * from employee;
+    -> end//
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> delimiter ;
+
+mysql> call getData();
++----+--------+-----------+
+| id | name   | address   |
++----+--------+-----------+
+|  1 | Ravi   | Chennai   |
+|  2 | Varun  | Delhi     |
+|  3 | Nithin | Pune      |
+|  4 | Robin  | Bangalore |
+|  5 | Raja   | Hydrabad  |
++----+--------+-----------+
+5 rows in set (0.12 sec)
+
+//------------------------------ variable -------------------
+
+mysql> delimiter //
+mysql> create procedure sal()
+    -> begin
+    -> declare x int default 0;
+    -> set x=10;
+    -> select sal1+x as total from salary;
+    -> end //
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> call sal()//
++-------+
+| total |
++-------+
+| 12010 |
+| 11010 |
+| 13010 |
++-------+
+3 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+------------------------------------ Parameters ----------------------------------
+
+mysql> create procedure getDetailsById(IN myid int)
+    -> begin
+    -> select * from employee where id=myid;
+    -> end //
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> call getDetailsById(3)//
++----+--------+---------+
+| id | name   | address |
++----+--------+---------+
+|  3 | Nithin | Pune    |
++----+--------+---------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call getDetailsById(5)//
++----+------+----------+
+| id | name | address  |
++----+------+----------+
+|  5 | Raja | Hydrabad |
++----+------+----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+mysql> create procedure getData1(IN x int, OUT y varchar(30))
+    -> begin
+    -> select name into y from employee where id=x;
+    -> end //
+ERROR 1304 (42000): PROCEDURE getData1 already exists
+mysql> create procedure getData(IN x int, OUT y varchar(30))
+    -> begin
+    -> select name into y from employee where id=x;
+    -> end //
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> call getData(3,@y)//
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @y //
++--------+
+| @y     |
++--------+
+| Nithin |
++--------+
+1 row in set (0.00 sec)
+
+
+
+mysql> create procedure set_counter(INOUT count int, IN inc int)
+    -> begin
+    -> set count=count+inc;
+    -> end //
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> set @counter=1//
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call set_counter(@counter,1)//
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @counter//
++----------+
+| @counter |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> set @counter=2//
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call set_counter(@counter,1)//
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @counter//
++----------+
+| @counter |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+
+-------------------------------------------------------------------------------------
+

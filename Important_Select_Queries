@@ -1,0 +1,261 @@
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| employee       |
+| myview         |
++----------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from employee;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Guhan   | 12000   | 13000   | Chennai |
+| Anbu    | 11000   | 12000   | Madurai |
+| Karthik | 14000   | 12000   | Nellai  |
+| Anbu    | 13000   | 15000   | Covai   |
+| Rajesh  | 15000   | 12000   | Madurai |
++---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select distinct name from employee;
++---------+
+| name    |
++---------+
+| Guhan   |
+| Anbu    |
+| Karthik |
+| Rajesh  |
++---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select name,city from employee where name="Anbu";
++------+---------+
+| name | city    |
++------+---------+
+| Anbu | Madurai |
+| Anbu | Covai   |
++------+---------+
+2 rows in set (0.00 sec)
+
+
+MariaDB [test]>  select * from employee where salary1=12000 and salary2=13000;
++-------+---------+---------+---------+
+| name  | salary1 | salary2 | city    |
++-------+---------+---------+---------+
+| Guhan | 12000   | 13000   | Chennai |
++-------+---------+---------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>  select * from employee where salary1=12000 or salary2=12000;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Guhan   | 12000   | 13000   | Chennai |
+| Anbu    | 11000   | 12000   | Madurai |
+| Karthik | 14000   | 12000   | Nellai  |
+| Rajesh  | 15000   | 12000   | Madurai |
++---------+---------+---------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]>  select * from employee where salary1!=12000 or salary2!=12000;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Guhan   | 12000   | 13000   | Chennai |
+| Anbu    | 11000   | 12000   | Madurai |
+| Karthik | 14000   | 12000   | Nellai  |
+| Anbu    | 13000   | 15000   | Covai   |
+| Rajesh  | 15000   | 12000   | Madurai |
++---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]>  select * from employee where not salary2=12000;
++-------+---------+---------+---------+
+| name  | salary1 | salary2 | city    |
++-------+---------+---------+---------+
+| Guhan | 12000   | 13000   | Chennai |
+| Anbu  | 13000   | 15000   | Covai   |
++-------+---------+---------+---------+
+2 rows in set (0.04 sec)
+
+MariaDB [test]>  select * from employee order by salary1;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Anbu    | 11000   | 12000   | Madurai |
+| Guhan   | 12000   | 13000   | Chennai |
+| Anbu    | 13000   | 15000   | Covai   |
+| Karthik | 14000   | 12000   | Nellai  |
+| Rajesh  | 15000   | 12000   | Madurai |
++---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]>  select * from employee order by salary1 desc;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Rajesh  | 15000   | 12000   | Madurai |
+| Karthik | 14000   | 12000   | Nellai  |
+| Anbu    | 13000   | 15000   | Covai   |
+| Guhan   | 12000   | 13000   | Chennai |
+| Anbu    | 11000   | 12000   | Madurai |
++---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]>  select * from employee order by salary1 desc limit 3;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Rajesh  | 15000   | 12000   | Madurai |
+| Karthik | 14000   | 12000   | Nellai  |
+| Anbu    | 13000   | 15000   | Covai   |
++---------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select max(salary1) from employee;
++--------------+
+| max(salary1) |
++--------------+
+| 15000        |
++--------------+
+1 row in set (0.04 sec)
+
+MariaDB [test]> select min(salary1) from employee;
++--------------+
+| min(salary1) |
++--------------+
+| 11000        |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select count(salary1) from employee;
++----------------+
+| count(salary1) |
++----------------+
+|              5 |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select avg(salary1) from employee;
++--------------+
+| avg(salary1) |
++--------------+
+|        13000 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from employee where name like "an%";
++------+---------+---------+---------+
+| name | salary1 | salary2 | city    |
++------+---------+---------+---------+
+| Anbu | 11000   | 12000   | Madurai |
+| Anbu | 13000   | 15000   | Covai   |
++------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from employee where name like "%sh";
++--------+---------+---------+---------+
+| name   | salary1 | salary2 | city    |
++--------+---------+---------+---------+
+| Rajesh | 15000   | 12000   | Madurai |
++--------+---------+---------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from employee where name like "%ah%";
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from employee where name like "%ha%";
++-------+---------+---------+---------+
+| name  | salary1 | salary2 | city    |
++-------+---------+---------+---------+
+| Guhan | 12000   | 13000   | Chennai |
++-------+---------+---------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from employee where name like "____";
++------+---------+---------+---------+
+| name | salary1 | salary2 | city    |
++------+---------+---------+---------+
+| Anbu | 11000   | 12000   | Madurai |
+| Anbu | 13000   | 15000   | Covai   |
++------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+
+MariaDB [test]> select * from employee where city in ("chennai","madurai");
++--------+---------+---------+---------+
+| name   | salary1 | salary2 | city    |
++--------+---------+---------+---------+
+| Guhan  | 12000   | 13000   | Chennai |
+| Anbu   | 11000   | 12000   | Madurai |
+| Rajesh | 15000   | 12000   | Madurai |
++--------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from employee where city not  in ("chennai","madurai");
++---------+---------+---------+--------+
+| name    | salary1 | salary2 | city   |
++---------+---------+---------+--------+
+| Karthik | 14000   | 12000   | Nellai |
+| Anbu    | 13000   | 15000   | Covai  |
++---------+---------+---------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from employee where salary1 between 12000 and 14000;
++---------+---------+---------+---------+
+| name    | salary1 | salary2 | city    |
++---------+---------+---------+---------+
+| Guhan   | 12000   | 13000   | Chennai |
+| Karthik | 14000   | 12000   | Nellai  |
+| Anbu    | 13000   | 15000   | Covai   |
++---------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select salary1+salary2 as total from employee;
++-------+
+| total |
++-------+
+| 25000 |
+| 23000 |
+| 26000 |
+| 28000 |
+| 27000 |
++-------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select count(name), city from employee group by city;
++-------------+---------+
+| count(name) | city    |
++-------------+---------+
+|           1 | Chennai |
+|           1 | Covai   |
+|           2 | Madurai |
+|           1 | Nellai  |
++-------------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select name, count(name), city from employee group by city;
++---------+-------------+---------+
+| name    | count(name) | city    |
++---------+-------------+---------+
+| Guhan   |           1 | Chennai |
+| Anbu    |           1 | Covai   |
+| Anbu    |           2 | Madurai |
+| Karthik |           1 | Nellai  |
++---------+-------------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select name, count(name), city from employee group by city having name="Anbu";
++------+-------------+---------+
+| name | count(name) | city    |
++------+-------------+---------+
+| Anbu |           1 | Covai   |
+| Anbu |           2 | Madurai |
++------+-------------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]>

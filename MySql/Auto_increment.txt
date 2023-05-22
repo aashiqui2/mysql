@@ -1,0 +1,54 @@
+Auto Increment? 
+
+      Auto-increment allows a unique number to be generated automatically when a new record is inserted into a table. 
+Often this is the primary key field that we would like to be created automatically every time a new record is inserted.
+
+
+
+MariaDB [(none)]> use test;
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| myview         |
++----------------+
+
+MariaDB [test]> create table employee( id int auto_increment, name varchar(30), mobile varchar(30), primary key(id));
+
+
+MariaDB [test]> desc employee;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(30) | YES  |     | NULL    |                |
+| mobile | varchar(30) | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+
+
+MariaDB [test]> insert into employee(name,mobile) values("Guhan",86896);
+
+MariaDB [test]> select * from employee;
++----+-------+--------+
+| id | name  | mobile |
++----+-------+--------+
+|  1 | Guhan | 86896  |
++----+-------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> insert into employee(name,mobile) values("Muthu",87678),("Anbu",69869),("Ganesan",967986),("Sri",7878);
+
+MariaDB [test]> select * from employee;
++----+---------+--------+
+| id | name    | mobile |
++----+---------+--------+
+|  1 | Guhan   | 86896  |
+|  2 | Muthu   | 87678  |
+|  3 | Anbu    | 69869  |
+|  4 | Ganesan | 967986 |
+|  5 | Sri     | 7878   |
++----+---------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]>

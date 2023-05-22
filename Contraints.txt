@@ -1,0 +1,519 @@
+CONSTRAINT:
+
+MySQL CONSTRAINT is used to define rules to allow or restrict what values can be stored in columns.
+
+Types:
+
+1) Column Level:
+
+The column level constraints can apply only to one column
+
+2) Table Level:
+
+table level constraints are applied to the entire table.
+
+A) NOT NULL:
+			-> column can not contain any NULL value. MySQL NOT NULL can be used to CREATE and ALTER a table.
+SQL NOT NULL Constraint. By default, a column can hold NULL values. The NOT NULL constraint enforces a column to NOT accept NULL values. This enforces a field to always contain a value, which means that you cannot insert a new record, or update a record without adding a value to this field.
+			
+The NULL value can be surprising until you get used to it. Conceptually, NULL means “a missing unknown value” and it is treated somewhat differently from other values. ... In MySQL, 0 or NULL means false and anything else means true. The default truth value from a boolean operation is 1 .
+
+Null (or NULL) is a special marker used in Structured Query Language to indicate that a data value does not exist in the database. Introduced by the creator of the relational database model, E. F. ... Codd also introduced the use of the lowercase Greek omega (ω) symbol to represent Null in database theory.
+
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| emp_details    |
+| payilagam1     |
+| salary         |
++----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> create table t1(id varchar(30), name varchar(30));
+Query OK, 0 rows affected (0.30 sec)
+
+
+MariaDB [test]> describe t1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | varchar(30) | YES  |     | NULL    |       |
+| name  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+MariaDB [test]> create table t2( id varchar(30) not null, name varchar(30) not n
+ull);
+Query OK, 0 rows affected (0.28 sec)
+
+MariaDB [test]> describe t2;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | varchar(30) | NO   |     | NULL    |       |
+| name  | varchar(30) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+
+MariaDB [test]> insert into t1 values(1,"karthi");
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from t1;
++------+--------+
+| id   | name   |
++------+--------+
+| 1    | karthi |
++------+--------+
+1 row in set (0.00 sec)
+
+
+MariaDB [test]> alter table t1 add mob varchar(30) after name;
+Query OK, 0 rows affected (0.48 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select * from t1;
++------+--------+------+
+| id   | name   | mob  |
++------+--------+------+
+| 1    | karthi | NULL |
++------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> insert into t2 values(1, "mugizh");
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> alter table t2 add mob varchar(30) after name;
+Query OK, 0 rows affected (0.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select * from t2;
++----+--------+------+
+| id | name   | mob  |
++----+--------+------+
+| 1  | mugizh | NULL |
++----+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> insert into t2 values(2, "tamil", "896986");
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> select * from t2;
++----+--------+--------+
+| id | name   | mob    |
++----+--------+--------+
+| 1  | mugizh | NULL   |
+| 2  | tamil  | 896986 |
++----+--------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select name from t2 where mob is null;
++--------+
+| name   |
++--------+
+| mugizh |
++--------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select name from t2 where mob is not null;
++-------+
+| name  |
++-------+
+| tamil |
++-------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>
+
+
+---------------------------------------------DEFAULT:----------------------------
+
+MariaDB [test]> select * from m1;
++----+-------+---------+
+| id | name  | country |
++----+-------+---------+
+|  1 | Guhan |         |
+|  2 | Anbu  |         |
++----+-------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]>  insert into m1 values("","Anbu",null);
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+MariaDB [test]> select * from m1;
++----+-------+---------+
+| id | name  | country |
++----+-------+---------+
+|  1 | Guhan |         |
+|  2 | Anbu  |         |
+|  3 | Anbu  | NULL    |
++----+-------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]>  insert into m1(id,name) values("","Anbu");
+Query OK, 1 row affected, 1 warning (0.09 sec)
+
+MariaDB [test]> select * from m1;
++----+-------+---------+
+| id | name  | country |
++----+-------+---------+
+|  1 | Guhan |         |
+|  2 | Anbu  |         |
+|  3 | Anbu  | NULL    |
+|  4 | Anbu  | India   |
++----+-------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> alter table m1 modify name varchar(30) unique;
+ERROR 1062 (23000): Duplicate entry 'Anbu' for key 'name'
+MariaDB [test]> alter table m1 add mob varchar(30) after country;
+Query OK, 0 rows affected (0.62 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select * from m1;
++----+-------+---------+------+
+| id | name  | country | mob  |
++----+-------+---------+------+
+|  1 | Guhan |         | NULL |
+|  2 | Anbu  |         | NULL |
+|  3 | Anbu  | NULL    | NULL |
+|  4 | Anbu  | India   | NULL |
++----+-------+---------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> alter table m1 modify mob varchar(30) unique
+    -> ;
+Query OK, 0 rows affected (0.27 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> insert into m1(id, name,country) values("", "Raja","979181");
+Query OK, 1 row affected, 1 warning (0.09 sec)
+
+MariaDB [test]> select * from m1;
++----+-------+---------+------+
+| id | name  | country | mob  |
++----+-------+---------+------+
+|  1 | Guhan |         | NULL |
+|  2 | Anbu  |         | NULL |
+|  3 | Anbu  | NULL    | NULL |
+|  4 | Anbu  | India   | NULL |
+|  5 | Raja  | 979181  | NULL |
++----+-------+---------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> insert into m1(id, name,mob) values("", "Raja","979181");
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+MariaDB [test]> select * from m1;
++----+-------+---------+--------+
+| id | name  | country | mob    |
++----+-------+---------+--------+
+|  1 | Guhan |         | NULL   |
+|  2 | Anbu  |         | NULL   |
+|  3 | Anbu  | NULL    | NULL   |
+|  4 | Anbu  | India   | NULL   |
+|  5 | Raja  | 979181  | NULL   |
+|  6 | Raja  | India   | 979181 |
++----+-------+---------+--------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> insert into m1(id, name,country) values("", "Dev","979181");
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+MariaDB [test]> insert into m1(id, name,mob) values("", "Dev","979181");
+ERROR 1062 (23000): Duplicate entry '979181' for key 'mob'
+MariaDB [test]>
+
+
+-------------------------------------PRIMARY KEY AND FOREIGN KEY----------------------------
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| emp_details    |
+| m1             |
+| payilagam1     |
+| salary         |
+| t1             |
+| t2             |
++----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> create table customer(id int auto_increment, name varchar(30), m
+ob varchar(30), primary key(id));
+Query OK, 0 rows affected (0.33 sec)
+
+MariaDB [test]> insert into customer values("", "Guhan", "97981");
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+MariaDB [test]> insert into customer values("", "Anbu", "87657");
+Query OK, 1 row affected, 1 warning (0.09 sec)
+
+MariaDB [test]> select * from customer;
++----+-------+-------+
+| id | name  | mob   |
++----+-------+-------+
+|  1 | Guhan | 97981 |
+|  2 | Anbu  | 87657 |
++----+-------+-------+
+2 rows in set (0.00 sec)
+
+
+MariaDB [test]> create table sales_details( No int auto_increment, id int, prima
+ry key(No), foreign key(id) references customer(id));
+Query OK, 0 rows affected (0.39 sec)
+
+MariaDB [test]> insert into sales_details values("",3);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
+ails (`test`.`sales_details`, CONSTRAINT `sales_details_ibfk_1` FOREIGN KEY (`id
+`) REFERENCES `customer` (`id`))
+MariaDB [test]> insert into sales_details values("",2);
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+MariaDB [test]> select * from sales_details;
++----+------+
+| No | id   |
++----+------+
+|  2 |    2 |
++----+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> insert into sales_details values("",1);
+Query OK, 1 row affected, 1 warning (0.09 sec)
+
+MariaDB [test]> select * from sales_details;
++----+------+
+| No | id   |
++----+------+
+|  3 |    1 |
+|  2 |    2 |
++----+------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> insert into sales_details values("",1);
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+MariaDB [test]> select * from sales_details;
++----+------+
+| No | id   |
++----+------+
+|  3 |    1 |
+|  4 |    1 |
+|  2 |    2 |
++----+------+
+3 rows in set (0.00 sec)
+
+
+MariaDB [test]> insert into customer values("", "kathik", "89698");
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+MariaDB [test]> select * from customer;
++----+--------+-------+
+| id | name   | mob   |
++----+--------+-------+
+|  1 | Guhan  | 97981 |
+|  2 | Anbu   | 87657 |
+|  3 | kathik | 89698 |
++----+--------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> insert into sales_details values("", 3);
+Query OK, 1 row affected, 1 warning (0.32 sec)
+
+MariaDB [test]> select * from sales_details;
++----+------+
+| No | id   |
++----+------+
+|  3 |    1 |
+|  4 |    1 |
+|  2 |    2 |
+|  5 |    3 |
++----+------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]>
+
+
+			<-------  	MariaDB [test]> delete from customer where mob="89698";
+						ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constrai
+						nt fails (`test`.`sales_details`, CONSTRAINT `sales_details_ibfk_1` FOREIGN KEY
+						(`id`) REFERENCES `customer` (`id`))
+						
+						Because, we already refer this id into one more table as foreign key, so 
+						
+						we must delete the data in that table
+						                                         ------->
+																 
+MariaDB [test]> delete from sales_details where id="3";
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> select * from sales_details;
++----+------+
+| No | id   |
++----+------+
+|  3 |    1 |
+|  4 |    1 |
+|  2 |    2 |
++----+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> delete from customer where mob="89698";
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [test]> select * from customer;
++----+-------+-------+
+| id | name  | mob   |
++----+-------+-------+
+|  1 | Guhan | 97981 |
+|  2 | Anbu  | 87657 |
++----+-------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]>
+
+
+
+---------------------------Next Example----------------------------
+
+MariaDB [test]> create table shop(id int, name varchar(30), primary key(name));
+Query OK, 0 rows affected (0.26 sec)
+
+MariaDB [test]> insert into shop values(1, "Guhan");
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> insert into shop values(2, "Anbu");
+Query OK, 1 row affected (0.10 sec)
+
+MariaDB [test]> select * from shop;
++------+-------+
+| id   | name  |
++------+-------+
+|    2 | Anbu  |
+|    1 | Guhan |
++------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> create table shop_details(id int auto_increment, name varchar(30
+), primary key(id), foreign key(name) references shop(name));
+Query OK, 0 rows affected (0.24 sec)
+
+-----------	
+			MariaDB [test]> insert into shop_details values("", "kumar");
+			ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
+			ails (`test`.`shop_details`, CONSTRAINT `shop_details_ibfk_1` FOREIGN KEY (`name
+			`) REFERENCES `shop` (`name`))
+									--------------------------
+			
+MariaDB [test]> insert into shop_details values("", "Guhan");
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+MariaDB [test]> insert into shop_details values("", "Anbu");
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+MariaDB [test]> select * from shop_details;
++----+-------+
+| id | name  |
++----+-------+
+|  3 | Anbu  |
+|  2 | Guhan |
++----+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]>
+
+------------------------Next Example--------------------------------------------------------
+
+
+
+
+
+MariaDB [test]> create table emp(id int, name varchar(30), mob varchar(30), 
+primary key(name));
+
+
+MariaDB [test]> desc emp;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(30) | NO   | PRI | NULL    |       |
+| mob   | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+MariaDB [test]> insert into emp values(1,"Karthik","9798");
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> insert into emp values(2,"Muruga","8989");\
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from emp;
++------+---------+------+
+| id   | name    | mob  |
++------+---------+------+
+|    1 | Karthik | 9798 |
+|    2 | Muruga  | 8989 |
++------+---------+------+
+2 rows in set (0.00 sec)
+
+
+MariaDB [test]> create table sal( id varchar(30), name varchar(30), amount varch
+ar(30), primary key(name), foreign key(name) references emp(name));
+
+
+MariaDB [test]> desc sal;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | varchar(30) | YES  |     | NULL    |       |
+| name   | varchar(30) | NO   | PRI | NULL    |       |
+| amount | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+
+						MariaDB [test]> insert into sal values(1, "anbu", 12000);
+						ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
+						ails (`test`.`sal`, CONSTRAINT `sal_ibfk_1` FOREIGN KEY (`name`) REFERENCES `emp
+						` (`name`))
+
+
+MariaDB [test]> insert into sal values(1, "Karthik", 12000);
+Query OK, 1 row affected (0.07 sec)
+
+MariaDB [test]> insert into sal values(2, "Muruga", 20000);
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from sal;
++------+---------+--------+
+| id   | name    | amount |
++------+---------+--------+
+| 1    | Karthik | 12000  |
+| 2    | Muruga  | 20000  |
++------+---------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> insert into sal values(3, "Tamil", 22000);
+
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
+ails (`test`.`sal`, CONSTRAINT `sal_ibfk_1` FOREIGN KEY (`name`) REFERENCES `emp
+` (`name`))
+
+
+
+
+
+
+
+
+
+
+
+
+

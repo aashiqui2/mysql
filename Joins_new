@@ -1,0 +1,121 @@
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| employee       |
+| salary         |
+| team1          |
+| team2          |
++----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1;
++---------+-------+
+| name    | score |
++---------+-------+
+| Guhan   | 76    |
+| Raja    | 67    |
+| Karthik | 56    |
+| Siva    | 69    |
+| vimal   | 85    |
++---------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team2;
++---------+-------+
+| name    | score |
++---------+-------+
+| kesav   | 90    |
+| Guhan   | 78    |
+| murugan | 95    |
+| vetri   | 85    |
+| Siva    | 78    |
+| Raja    | 50    |
++---------+-------+
+6 rows in set (0.00 sec)
+
+
+MariaDB [test]> select * from team1 left join team2 on team1.name=team2.name;
++---------+-------+-------+-------+
+| name    | score | name  | score |
++---------+-------+-------+-------+
+| Guhan   | 76    | Guhan | 78    |
+| Siva    | 69    | Siva  | 78    |
+| Raja    | 67    | Raja  | 50    |
+| Karthik | 56    | NULL  | NULL  |
+| vimal   | 85    | NULL  | NULL  |
++---------+-------+-------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 right join team2 on team1.name=team2.name;
++-------+-------+---------+-------+
+| name  | score | name    | score |
++-------+-------+---------+-------+
+| Guhan | 76    | Guhan   | 78    |
+| Raja  | 67    | Raja    | 50    |
+| Siva  | 69    | Siva    | 78    |
+| NULL  | NULL  | kesav   | 90    |
+| NULL  | NULL  | murugan | 95    |
+| NULL  | NULL  | vetri   | 85    |
++-------+-------+---------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 inner join team2 on team1.name=team2.name;
++-------+-------+-------+-------+
+| name  | score | name  | score |
++-------+-------+-------+-------+
+| Guhan | 76    | Guhan | 78    |
+| Siva  | 69    | Siva  | 78    |
+| Raja  | 67    | Raja  | 50    |
++-------+-------+-------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 left join team2 on team1.name=team2.name where team2.name is null;
++---------+-------+------+-------+
+| name    | score | name | score |
++---------+-------+------+-------+
+| Karthik | 56    | NULL | NULL  |
+| vimal   | 85    | NULL | NULL  |
++---------+-------+------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 right join team2 on team1.name=team2.name where team1.name is null;
++------+-------+---------+-------+
+| name | score | name    | score |
++------+-------+---------+-------+
+| NULL | NULL  | kesav   | 90    |
+| NULL | NULL  | murugan | 95    |
+| NULL | NULL  | vetri   | 85    |
++------+-------+---------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 left join team2 on team1.name=team2.name where team2.name is null union all select * from team1 right join team2 on team1.na
+me=team2.name where team1.name is null;
++---------+-------+---------+-------+
+| name    | score | name    | score |
++---------+-------+---------+-------+
+| Karthik | 56    | NULL    | NULL  |
+| vimal   | 85    | NULL    | NULL  |
+| NULL    | NULL  | kesav   | 90    |
+| NULL    | NULL  | murugan | 95    |
+| NULL    | NULL  | vetri   | 85    |
++---------+-------+---------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 left join team2 on team1.name=team2.name where team2.name is null union all select * from team1 right join team2 on team1.na
+me=team2.name where team1.name is null union all select * from team1 inner join team2 on team1.name=team2.name;
++---------+-------+---------+-------+
+| name    | score | name    | score |
++---------+-------+---------+-------+
+| Karthik | 56    | NULL    | NULL  |
+| vimal   | 85    | NULL    | NULL  |
+| NULL    | NULL  | kesav   | 90    |
+| NULL    | NULL  | murugan | 95    |
+| NULL    | NULL  | vetri   | 85    |
+| Guhan   | 76    | Guhan   | 78    |
+| Siva    | 69    | Siva    | 78    |
+| Raja    | 67    | Raja    | 50    |
++---------+-------+---------+-------+
+8 rows in set (0.00 sec)

@@ -1,0 +1,145 @@
+---------------------------
+IF expression THEN 
+   statements;
+END IF;
+---------------------------
+
+IF expression THEN
+   statements;
+ELSE
+   else-statements;
+END IF;
+
+---------------------------
+
+IF expression THEN
+   statements;
+ELSEIF elseif-expression THEN
+   elseif-statements;
+...
+ELSE
+   else-statements;
+END IF;
+
+---------------------------
+
+
++----------------+-------------+
+| customerNumber | creditlimit |
++----------------+-------------+
+|           1001 |       10000 |
+|           1002 |       20000 |
+|           1003 |       40000 |
+|           1004 |       50000 |
+|           1005 |       60000 |
+|           1006 |        2000 |
++----------------+-------------+
+
+mysql> delimiter //
+mysql> create procedure GetCustomerLevel(
+    -> in cusNum int,
+    -> out cusLev varchar(30))
+    -> begin
+    -> declare creditLim double;
+    -> select creditlimit into creditLim
+    -> from customers
+    -> where customerNumber=cusNum;
+    -> if creditLim > 50000 then
+    -> set cusLev='PLATINUM';
+    -> elseif creditLim <= 50000 then
+    -> set cusLev='GOLD';
+    -> end if;
+    -> end//
+Query OK, 0 rows affected (0.13 sec)
+
+mysql>
+
+
+mysql> call GetCustomerLevel(1005,@cusLev)//
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @cusLev as level//
++----------+
+| level    |
++----------+
+| PLATINUM |
++----------+
+1 row in set (0.00 sec)
+
+mysql> call GetCustomerLevel(1002,@cusLev)//
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @cusLev as level//
++-------+
+| level |
++-------+
+| GOLD  |
++-------+
+1 row in set (0.00 sec)
+
+-----------------------------SWITCH CASE-----------------------------------
+---------------------------
+ CASE  case_expression
+   WHEN when_expression_1 THEN commands
+   WHEN when_expression_2 THEN commands
+   ...
+   ELSE commands
+END CASE;
+--------------------------
+
+
+mysql> select * from customers//
++----------------+-------------+-------------+
+| customerNumber | creditlimit | countryName |
++----------------+-------------+-------------+
+|           1001 |       10000 | USA         |
+|           1002 |       20000 | INDIA       |
+|           1003 |       40000 | CANADA      |
+|           1004 |       50000 | PAKISTAN    |
+|           1005 |       60000 | SRILANKA    |
+|           1006 |        2000 | CHINA       |
++----------------+-------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> create procedure GetCustomerData(
+    -> in cusNum int,
+    -> out shipping varchar(30))
+    -> begin
+    -> declare cusCountry varchar(30);
+    -> select countryName into cusCountry from customers
+    -> where customerNumber=cusNum;
+    -> case cusCountry
+    -> when 'USA' then
+    -> set shipping ='1-day shipping';
+    -> when 'INDIA' then
+    -> set shipping ='2-day shipping';
+    -> else
+    -> set shipping='4th-day shipping';
+    -> end case;
+    -> end//
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> call GetCustomerData(1001,@shipping);
+    -> //
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @shipping as shipping//
++----------------+
+| shipping       |
++----------------+
+| 1-day shipping |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> call GetCustomerData(1003,@shipping);
+    -> //
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @shipping as shipping//
++------------------+
+| shipping         |
++------------------+
+| 4th-day shipping |
++------------------+
+1 row in set (0.00 sec)
+

@@ -1,0 +1,371 @@
+
+MariaDB [(none)]> use test
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| ex1            |
+| ex2            |
++----------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> create table details(name varchar(30), salary varchar(30), timing TIMESTAMP default CURRENT_TIMESTAMP);
+Query OK, 0 rows affected (0.24 sec)
+
+MariaDB [test]> desc details;
++--------+-------------+------+-----+-------------------+-------+
+| Field  | Type        | Null | Key | Default           | Extra |
++--------+-------------+------+-----+-------------------+-------+
+| name   | varchar(30) | YES  |     | NULL              |       |
+| salary | varchar(30) | YES  |     | NULL              |       |
+| timing | timestamp   | NO   |     | CURRENT_TIMESTAMP |       |
++--------+-------------+------+-----+-------------------+-------+
+3 rows in set (0.02 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Guhan",12000);
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Anbu",13000);
+Query OK, 1 row affected (0.10 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Rajesh",10000);
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Mahesh",14000);
+Query OK, 1 row affected (0.10 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Kumar",11000);
+Query OK, 1 row affected (0.10 sec)
+
+MariaDB [test]> select * from details;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
++--------+--------+---------------------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Rajesh",16000);
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> insert into details(name,salary) values("Mahesh",14000);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [test]> select * from details;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+7 rows in set (0.00 sec)
+
+
+MariaDB [test]> select name, salary, count(*) from details;
++-------+--------+----------+
+| name  | salary | count(*) |
++-------+--------+----------+
+| Guhan | 12000  |        7 |
++-------+--------+----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select name, salary, count(*) from details having name="Rajesh";
+Empty set (0.00 sec)
+
+MariaDB [test]> select name, salary, count(*) from details group by name;
++--------+--------+----------+
+| name   | salary | count(*) |
++--------+--------+----------+
+| Anbu   | 13000  |        1 |
+| Guhan  | 12000  |        1 |
+| Kumar  | 11000  |        1 |
+| Mahesh | 14000  |        2 |
+| Rajesh | 10000  |        2 |
++--------+--------+----------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select name, salary, count(*) from details group by name="Rajesh";
++--------+--------+----------+
+| name   | salary | count(*) |
++--------+--------+----------+
+| Guhan  | 12000  |        5 |
+| Rajesh | 10000  |        2 |
++--------+--------+----------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where name like "han%";
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from details where name like "%han";
++-------+--------+---------------------+
+| name  | salary | timing              |
++-------+--------+---------------------+
+| Guhan | 12000  | 2018-08-25 09:11:13 |
++-------+--------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from details where name like "Raj%";
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
++--------+--------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where name like "%es%";
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where name like "_____";
++-------+--------+---------------------+
+| name  | salary | timing              |
++-------+--------+---------------------+
+| Guhan | 12000  | 2018-08-25 09:11:13 |
+| Kumar | 11000  | 2018-08-25 09:11:58 |
++-------+--------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where salary>10000;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+6 rows in set (0.07 sec)
+
+MariaDB [test]> select * from details where salary<12000;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
++--------+--------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where salary between 12000 and 15000;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where name="Mahesh" and salary="14000";
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where name="Mahesh" or salary="12000";
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where salary in (12000, 14000);
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where salary not in (12000, 14000);
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
++--------+--------+---------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where not salary=14000;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
++--------+--------+---------------------+
+5 rows in set (0.29 sec)
+
+MariaDB [test]> select * from details where month(timing)=08;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where dayofmonth(timing)=25;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where hour(timing)=09;
++--------+--------+---------------------+
+| name   | salary | timing              |
++--------+--------+---------------------+
+| Guhan  | 12000  | 2018-08-25 09:11:13 |
+| Anbu   | 13000  | 2018-08-25 09:11:22 |
+| Rajesh | 10000  | 2018-08-25 09:11:33 |
+| Mahesh | 14000  | 2018-08-25 09:11:44 |
+| Kumar  | 11000  | 2018-08-25 09:11:58 |
+| Rajesh | 16000  | 2018-08-25 09:12:37 |
+| Mahesh | 14000  | 2018-08-25 09:13:15 |
++--------+--------+---------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> select * from details where second(timing)=22;
++------+--------+---------------------+
+| name | salary | timing              |
++------+--------+---------------------+
+| Anbu | 13000  | 2018-08-25 09:11:22 |
++------+--------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select max(salary) from details;
++-------------+
+| max(salary) |
++-------------+
+| 16000       |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select min(salary) from details;
++-------------+
+| min(salary) |
++-------------+
+| 10000       |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select avg(salary) from details;
++--------------------+
+| avg(salary)        |
++--------------------+
+| 12857.142857142857 |
++--------------------+
+1 row in set (0.05 sec)
+
+MariaDB [test]> select sum(salary) from details;
++-------------+
+| sum(salary) |
++-------------+
+|       90000 |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select log(salary) from details;
++-------------------+
+| log(salary)       |
++-------------------+
+| 9.392661928770137 |
+| 9.472704636443673 |
+| 9.210340371976184 |
+| 9.546812608597396 |
+| 9.305650551780507 |
+| 9.680344001221918 |
+| 9.546812608597396 |
++-------------------+
+7 rows in set (0.05 sec)
+
+MariaDB [test]> select exp(salary) from details;
+ERROR 1690 (22003): DOUBLE value is out of range in 'exp(`test`.`details`.`salary`)'
+MariaDB [test]> select pow(salary,2) from details;
++---------------+
+| pow(salary,2) |
++---------------+
+|     144000000 |
+|     169000000 |
+|     100000000 |
+|     196000000 |
+|     121000000 |
+|     256000000 |
+|     196000000 |
++---------------+
+7 rows in set (0.05 sec)
+
+MariaDB [test]> select salary+12000 as total from details;
++-------+
+| total |
++-------+
+| 24000 |
+| 25000 |
+| 22000 |
+| 26000 |
+| 23000 |
+| 28000 |
+| 26000 |
++-------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]>

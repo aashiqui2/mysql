@@ -1,0 +1,45 @@
+Truncate:
+
+The TRUNCATE() function returns a number truncated to a certain number of decimal places.
+
+MariaDB [test]> select truncate(35.45,1);
++-------------------+
+| truncate(35.45,1) |
++-------------------+
+|              35.4 |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select truncate(35.45,2);
++-------------------+
+| truncate(35.45,2) |
++-------------------+
+|             35.45 |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select truncate(35.45,0);
++-------------------+
+| truncate(35.45,0) |
++-------------------+
+|                35 |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select truncate(35.45,-1);
++--------------------+
+| truncate(35.45,-1) |
++--------------------+
+|                 30 |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select truncate(35.45,-2);
++--------------------+
+| truncate(35.45,-2) |
++--------------------+
+|                  0 |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>

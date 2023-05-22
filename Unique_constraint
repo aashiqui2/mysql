@@ -1,0 +1,54 @@
+Difference between Unique and Primary Key:--
+
+Primary Key (PK): It's also a column or group of columns that can identify a uniqueness in a row. 
+So the Primary key is just another name for unique key, but the default implementation in SQL Server
+is different for Primary and Unique Key.  By Default: PK creates a Clustered index and UK creates a Non Clustered Index.
+
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| employee       |
+| myview         |
++----------------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> create table employee_details(name varchar(30), age varchar(30), mobile varchar(30) unique);
+
+MariaDB [test]> desc employee_details;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| name   | varchar(30) | YES  |     | NULL    |       |
+| age    | varchar(30) | YES  |     | NULL    |       |
+| mobile | varchar(30) | YES  | UNI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+MariaDB [test]> insert into employee_details values("Guhan",28,979181);
+
+MariaDB [test]> select * from employee_details;
++-------+------+--------+
+| name  | age  | mobile |
++-------+------+--------+
+| Guhan | 28   | 979181 |
++-------+------+--------+
+
+
+MariaDB [test]> insert into employee_details values("Anbu",26,979181);
+
+========>  ERROR 1062 (23000): Duplicate entry '979181' for key 'mobile'  <=========
+
+
+MariaDB [test]> insert into employee_details values("Anbu",26,978175);
+
+
+MariaDB [test]> select * from employee_details;
++-------+------+--------+
+| name  | age  | mobile |
++-------+------+--------+
+| Guhan | 28   | 979181 |
+| Anbu  | 26   | 978175 |
++-------+------+--------+

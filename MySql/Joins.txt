@@ -1,0 +1,109 @@
+MariaDB [test]> select * from football;
++--------+------+
+| name   | age  |
++--------+------+
+| kesav  | 28   |
+| arun   | 25   |
+| anbu   | 26   |
+| aashiq | 25   |
+| siva   | 26   |
++--------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket;
++-------+------+
+| name  | age  |
++-------+------+
+| anbu  | 25   |
+| raja  | 26   |
+| mani  | 27   |
+| muthu | 26   |
+| guhan | 25   |
+| siva  | 26   |
++-------+------+
+6 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket inner join  football on cricket.name=football.name;
++------+------+------+------+
+| name | age  | name | age  |
++------+------+------+------+
+| anbu | 25   | anbu | 26   |
+| siva | 26   | siva | 26   |
++------+------+------+------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket left join football on cricket.name=football.name;
++-------+------+------+------+
+| name  | age  | name | age  |
++-------+------+------+------+
+| anbu  | 25   | anbu | 26   |
+| siva  | 26   | siva | 26   |
+| raja  | 26   | NULL | NULL |
+| mani  | 27   | NULL | NULL |
+| muthu | 26   | NULL | NULL |
+| guhan | 25   | NULL | NULL |
++-------+------+------+------+
+6 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket right join football on cricket.name=football.name;
++------+------+--------+------+
+| name | age  | name   | age  |
++------+------+--------+------+
+| anbu | 25   | anbu   | 26   |
+| siva | 26   | siva   | 26   |
+| NULL | NULL | kesav  | 28   |
+| NULL | NULL | arun   | 25   |
+| NULL | NULL | aashiq | 25   |
++------+------+--------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket left join football on cricket.name=football.name where football.name is null;
++-------+------+------+------+
+| name  | age  | name | age  |
++-------+------+------+------+
+| raja  | 26   | NULL | NULL |
+| mani  | 27   | NULL | NULL |
+| muthu | 26   | NULL | NULL |
+| guhan | 25   | NULL | NULL |
++-------+------+------+------+
+4 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket right join football on cricket.name=football.name where cricket.name is null;
++------+------+--------+------+
+| name | age  | name   | age  |
++------+------+--------+------+
+| NULL | NULL | kesav  | 28   |
+| NULL | NULL | arun   | 25   |
+| NULL | NULL | aashiq | 25   |
++------+------+--------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [test]> select * from cricket left join football on cricket.name=football.name where football.name is null union all select * from cricket right join football  on cricket.name = football.name where cricket.name is null;
++-------+------+--------+------+
+| name  | age  | name   | age  |
++-------+------+--------+------+
+| raja  | 26   | NULL   | NULL |
+| mani  | 27   | NULL   | NULL |
+| muthu | 26   | NULL   | NULL |
+| guhan | 25   | NULL   | NULL |
+| NULL  | NULL | kesav  | 28   |
+| NULL  | NULL | arun   | 25   |
+| NULL  | NULL | aashiq | 25   |
++-------+------+--------+------+
+7 rows in set (0.084 sec)
+
+MariaDB [test]> select * from cricket left join football on cricket.name=football.name where football.name is null union all select * from cricket right join football  on cricket.name = football.name where cricket.name is null union all select * from cricket inner join  football on cricket.name= football.name ;
++-------+------+--------+------+
+| name  | age  | name   | age  |
++-------+------+--------+------+
+| raja  | 26   | NULL   | NULL |
+| mani  | 27   | NULL   | NULL |
+| muthu | 26   | NULL   | NULL |
+| guhan | 25   | NULL   | NULL |
+| NULL  | NULL | kesav  | 28   |
+| NULL  | NULL | arun   | 25   |
+| NULL  | NULL | aashiq | 25   |
+| anbu  | 25   | anbu   | 26   |
+| siva  | 26   | siva   | 26   |
++-------+------+--------+------+
+9 rows in set (0.001 sec)

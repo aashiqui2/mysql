@@ -1,0 +1,185 @@
+Enter password: ****
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| py                 |
+| python_db          |
+| test               |
++--------------------+
+
+
+mysql> use test;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> create table mytable(id int, name varchar(30));
+
+
+mysql> desc mytable;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+mysql> insert into mytable(id, name) values(1, "Raja");
+
+
+mysql> select * from mytable;
++------+------+
+| id   | name |
++------+------+
+|    1 | Raja |
++------+------+
+
+
+mysql> alter table mytable add age varchar(30);
+
+mysql> select * from mytable;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|    1 | Raja | NULL |
++------+------+------+
+1 row in set (0.00 sec)
+
+mysql> alter table mytable add mob varchar(30) after name;
+
+mysql> select * from mytable;
++------+------+------+------+
+| id   | name | mob  | age  |
++------+------+------+------+
+|    1 | Raja | NULL | NULL |
++------+------+------+------+
+1 row in set (0.00 sec)
+
+mysql> alter table mytable add empid varchar(30) first;
+
+
+mysql> select * from mytable;
++-------+------+------+------+------+
+| empid | id   | name | mob  | age  |
++-------+------+------+------+------+
+| NULL  |    1 | Raja | NULL | NULL |
++-------+------+------+------+------+
+
+
+mysql> alter table mytable drop column empid;
+
+
+mysql> select * from mytable;
++------+------+------+------+
+| id   | name | mob  | age  |
++------+------+------+------+
+|    1 | Raja | NULL | NULL |
++------+------+------+------+
+
+
+mysql> alter table mytable drop column mob;
+
+mysql> select * from mytable;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|    1 | Raja | NULL |
++------+------+------+
+
+mysql> update mytable set age=25 where id=1;
+
+mysql> select * from mytable;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|    1 | Raja | 25   |
++------+------+------+
+
+mysql> alter table mytable change name Name varchar(30);
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| mytable        |
++----------------+
+
+mysql> select * from mytable;
++------+------+------+
+| id   | Name | age  |
++------+------+------+
+|    1 | Raja | 25   |
++------+------+------+
+
+
+mysql> alter table mytable modify Name varchar(50);
+
+mysql> desc mytable;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
+| age   | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+mysql> create table t1(name varchar(30));
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| mytable        |
+| t1             |
++----------------+
+
+mysql> drop table t1;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> insert into mytable values (2, "anbu", 23);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from mytable;
++------+------+------+
+| id   | Name | age  |
++------+------+------+
+|    1 | Raja | 25   |
+|    2 | anbu | 23   |
++------+------+------+
+
+mysql> delete from mytable where id=2;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from mytable;
++------+------+------+
+| id   | Name | age  |
++------+------+------+
+|    1 | Raja | 25   |
++------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from hack;
++------+------+----------+--------+------+
+| no   | id   | name     | course | mob  |
++------+------+----------+--------+------+
+| 1    | py1  | gokul    | HTML   | 1234 |
+| 2    | py2  | aashiqui | PHP    | 5678 |
++------+------+----------+--------+------+
+
+mysql> alter table hack drop column mob;
+
+mysql> select *from hack;
++------+------+----------+--------+
+| no   | id   | name     | course |
++------+------+----------+--------+
+| 1    | py1  | gokul    | HTML   |
+| 2    | py2  | aashiqui | PHP    |
++------+------+----------+--------+

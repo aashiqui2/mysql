@@ -1,0 +1,77 @@
+MariaDB [test]> select * from team1;
++---------+-------+
+| name    | score |
++---------+-------+
+| Guhan   | 76    |
+| Raja    | 67    |
+| Karthik | 56    |
+| Siva    | 69    |
+| vimal   | 85    |
++---------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team2;
++---------+-------+
+| name    | score |
++---------+-------+
+| kesav   | 90    |
+| Guhan   | 78    |
+| murugan | 95    |
+| vetri   | 85    |
+| Siva    | 78    |
+| Raja    | 50    |
++---------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select * from team1 union select * from team2;
++---------+-------+
+| name    | score |
++---------+-------+
+| Guhan   | 76    |
+| Raja    | 67    |
+| Karthik | 56    |
+| Siva    | 69    |
+| vimal   | 85    |
+| kesav   | 90    |
+| Guhan   | 78    |
+| murugan | 95    |
+| vetri   | 85    |
+| Siva    | 78    |
+| Raja    | 50    |
++---------+-------+
+11 rows in set (0.00 sec)
+
+MariaDB [test]> select name from team1 union select name from team2;
++---------+
+| name    |
++---------+
+| Guhan   |
+| Raja    |
+| Karthik |
+| Siva    |
+| vimal   |
+| kesav   |
+| murugan |
+| vetri   |
++---------+
+8 rows in set (0.00 sec)
+
+MariaDB [test]> select name from team1 union all  select name from team2;
++---------+
+| name    |
++---------+
+| Guhan   |
+| Raja    |
+| Karthik |
+| Siva    |
+| vimal   |
+| kesav   |
+| Guhan   |
+| murugan |
+| vetri   |
+| Siva    |
+| Raja    |
++---------+
+11 rows in set (0.00 sec)
+
+MariaDB [test]>

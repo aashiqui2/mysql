@@ -1,0 +1,15 @@
+--------------------------------- Sum for two tables---------------------------------
+
+
+MariaDB [test]> select emp.id as id, salary.amount as amount, emp.id+salary.amou
+nt as result from emp as emp inner join salary as salary on emp.name=salary.name
+;
++------+--------+--------+
+| id   | amount | result |
++------+--------+--------+
+| 1    | 15000  |  15001 |
+| 2    | 22000  |  22002 |
++------+--------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]>

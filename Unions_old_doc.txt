@@ -1,0 +1,114 @@
+MariaDB [test]> select id, name from emp union select name, id from salary;
++---------+------+
+| id      | name |
++---------+------+
+| 1       | Dina |
+| 2       | devi |
+| Dina    | 1    |
+| Ramesh  | 2    |
+| devi    | 3    |
+| karthik | 4    |
+| Tamil   | 5    |
++---------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> select id, name from emp union all  select name, id from salary;
+
++---------+------+
+| id      | name |
++---------+------+
+| 1       | Dina |
+| 2       | devi |
+| Dina    | 1    |
+| Ramesh  | 2    |
+| devi    | 3    |
+| karthik | 4    |
+| Tamil   | 5    |
++---------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp join salary on emp.name=salary.name;
++------+------+------+------+------+--------+---------+
+| id   | name | mob  | id   | name | amount | amount1 |
++------+------+------+------+------+--------+---------+
+| 1    | Dina | 8787 | 1    | Dina | 15000  | 20000   |
+| 2    | devi | 6767 | 3    | devi | 22000  | 3000    |
++------+------+------+------+------+--------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp inner  join salary on emp.name=salary.name;
++------+------+------+------+------+--------+---------+
+| id   | name | mob  | id   | name | amount | amount1 |
++------+------+------+------+------+--------+---------+
+| 1    | Dina | 8787 | 1    | Dina | 15000  | 20000   |
+| 2    | devi | 6767 | 3    | devi | 22000  | 3000    |
++------+------+------+------+------+--------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp left  join salary on emp.name=salary.name;
++------+------+------+------+------+--------+---------+
+| id   | name | mob  | id   | name | amount | amount1 |
++------+------+------+------+------+--------+---------+
+| 1    | Dina | 8787 | 1    | Dina | 15000  | 20000   |
+| 2    | devi | 6767 | 3    | devi | 22000  | 3000    |
++------+------+------+------+------+--------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp right  join salary on emp.name=salary.name;
++------+------+------+------+---------+--------+---------+
+| id   | name | mob  | id   | name    | amount | amount1 |
++------+------+------+------+---------+--------+---------+
+| 1    | Dina | 8787 | 1    | Dina    | 15000  | 20000   |
+| 2    | devi | 6767 | 3    | devi    | 22000  | 3000    |
+| NULL | NULL | NULL | 2    | Ramesh  | 20000  | 2000    |
+| NULL | NULL | NULL | 4    | karthik | 24000  | 2000    |
+| NULL | NULL | NULL | 5    | Tamil   | 26000  | 1000    |
++------+------+------+------+---------+--------+---------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> insert into emp values(3,"partha",797897);
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> select * from emp;
++------+--------+--------+
+| id   | name   | mob    |
++------+--------+--------+
+| 1    | Dina   | 8787   |
+| 2    | devi   | 6767   |
+| 3    | partha | 797897 |
++------+--------+--------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp left  join salary on emp.name=salary.name;
++------+--------+--------+------+------+--------+---------+
+| id   | name   | mob    | id   | name | amount | amount1 |
++------+--------+--------+------+------+--------+---------+
+| 1    | Dina   | 8787   | 1    | Dina | 15000  | 20000   |
+| 2    | devi   | 6767   | 3    | devi | 22000  | 3000    |
+| 3    | partha | 797897 | NULL | NULL | NULL   | NULL    |
++------+--------+--------+------+------+--------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp left outer join salary on emp.name=salary.name
+;
++------+--------+--------+------+------+--------+---------+
+| id   | name   | mob    | id   | name | amount | amount1 |
++------+--------+--------+------+------+--------+---------+
+| 1    | Dina   | 8787   | 1    | Dina | 15000  | 20000   |
+| 2    | devi   | 6767   | 3    | devi | 22000  | 3000    |
+| 3    | partha | 797897 | NULL | NULL | NULL   | NULL    |
++------+--------+--------+------+------+--------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from emp right outer join salary on emp.name=salary.nam
+e;
++------+------+------+------+---------+--------+---------+
+| id   | name | mob  | id   | name    | amount | amount1 |
++------+------+------+------+---------+--------+---------+
+| 1    | Dina | 8787 | 1    | Dina    | 15000  | 20000   |
+| 2    | devi | 6767 | 3    | devi    | 22000  | 3000    |
+| NULL | NULL | NULL | 2    | Ramesh  | 20000  | 2000    |
+| NULL | NULL | NULL | 4    | karthik | 24000  | 2000    |
+| NULL | NULL | NULL | 5    | Tamil   | 26000  | 1000    |
++------+------+------+------+---------+--------+---------+
+5 rows in set (0.00 sec)

@@ -1,0 +1,48 @@
+Floor:
+
+      Floor will produce a whole number that is less than or equal to the specified value.
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> select floor(4.4) from dual;
++------------+
+| floor(4.4) |
++------------+
+|          4 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select floor(-4.4) from dual;
++-------------+
+| floor(-4.4) |
++-------------+
+|          -5 |
++-------------+
+1 row in set (0.00 sec)
+
+
+MariaDB [test]> select floor(4.0) from dual;
++------------+
+| floor(4.0) |
++------------+
+|          4 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select floor(0) from dual;
++----------+
+| floor(0) |
++----------+
+|        0 |
++----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select floor(null) from dual;
++-------------+
+| floor(null) |
++-------------+
+|        NULL |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>

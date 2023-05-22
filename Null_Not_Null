@@ -1,0 +1,98 @@
+Null and not-null:-
+      SQL NOT NULL Constraint. By default, a column can hold NULL values. 
+The NOT NULL constraint enforces a column to NOT accept NULL values. 
+This enforces a field to always contain a value, which means that you cannot insert a new record,
+or update a record without adding a value to this field.
+
+IS NOT NULL?
+The IS NOT NULL condition is used in SQL to test for a non-NULL value.
+It returns TRUE if a non-NULL value is found, otherwise it returns FALSE. 
+It can be used in a SELECT, INSERT, UPDATE, or DELETE statement.
+
+
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> create table ex1(name varchar(30) not null);
+
+MariaDB [test]> desc ex1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| name  | varchar(30) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+MariaDB [test]> insert into ex1 values();
+
+
+MariaDB [test]> select * from ex1;
++------+
+| name |
++------+
+|      |
++------+
+
+
+MariaDB [test]> insert into ex1 values(null);
+ERROR 1048 (23000): Column 'name' cannot be null
+
+
+MariaDB [test]> select * from ex1 where name="";
++------+
+| name |
++------+
+|      |
++------+
+
+MariaDB [test]> create table ex2(name varchar(30));
+
+MariaDB [test]> insert into ex2 values(null);
+
+MariaDB [test]> select * from ex2;
++------+
+| name |
++------+
+| NULL |
++------+
+
+MariaDB [test]> desc ex2;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| name  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+MariaDB [test]> insert into ex2 values("guhan");
+
+
+MariaDB [test]> insert into ex2 values();
+
+
+MariaDB [test]> select * from ex2;
++-------+
+| name  |
++-------+
+| NULL  |
+| guhan |
+| NULL  |
++-------+
+
+MariaDB [test]> select name from ex2 where name=null;
+Empty set (0.00 sec)
+
+MariaDB [test]> select name from ex2 where name is null;
++------+
+| name |
++------+
+| NULL |
++------+
+
+MariaDB [test]> select name from ex2 where name is not null;
++-------+
+| name  |
++-------+
+| guhan |
++-------+
+
+MariaDB [test]>

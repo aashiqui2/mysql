@@ -1,0 +1,189 @@
+Enter password: ****
+
+mysql> use mydb;
+Database changed
+mysql> select ascii('a');
++------------+
+| ascii('a') |
++------------+
+|         97 |
++------------+
+1 row in set (0.07 sec)
+
+mysql> select bin(14);
++---------+
+| bin(14) |
++---------+
+| 1110    |
++---------+
+1 row in set (0.09 sec)
+
+
+mysql> select char('56');
++------------+
+| char('56') |
++------------+
+| 8          |
++------------+
+1 row in set (0.06 sec)
+
+mysql> select char_length("guhan");
++----------------------+
+| char_length("guhan") |
++----------------------+
+|                    5 |
++----------------------+
+1 row in set (0.05 sec)
+
+mysql> select format(1234.56786543, 4);
++--------------------------+
+| format(1234.56786543, 4) |
++--------------------------+
+| 1,234.5679               |
++--------------------------+
+1 row in set (0.06 sec)
+
+mysql> select instr("guhan ganesan", "ga");
++------------------------------+
+| instr("guhan ganesan", "ga") |
++------------------------------+
+|                            7 |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select instr("guhan ganesan", "a");
++-----------------------------+
+| instr("guhan ganesan", "a") |
++-----------------------------+
+|                           4 |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select lcase("GUHAN");
++----------------+
+| lcase("GUHAN") |
++----------------+
+| guhan          |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select ucase("guhan");
++----------------+
+| ucase("guhan") |
++----------------+
+| GUHAN          |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select left("guhan ganesan",4);
++-------------------------+
+| left("guhan ganesan",4) |
++-------------------------+
+| guha                    |
++-------------------------+
+1 row in set (0.05 sec)
+
+mysql> select right("guhan ganesan",3);
++--------------------------+
+| right("guhan ganesan",3) |
++--------------------------+
+| san                      |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select ltrim("   guhan  ganesana  ");
++-------------------------------+
+| ltrim("   guhan  ganesana  ") |
++-------------------------------+
+| guhan  ganesana               |
++-------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select rtrim("   guhan  ganesana  ");
++-------------------------------+
+| rtrim("   guhan  ganesana  ") |
++-------------------------------+
+|    guhan  ganesana            |
++-------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select mid("guhan ganesan",3,8);
++--------------------------+
+| mid("guhan ganesan",3,8) |
++--------------------------+
+| han gane                 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select position("u" in "guhan");
++--------------------------+
+| position("u" in "guhan") |
++--------------------------+
+|                        2 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select repeat("*",5);
++---------------+
+| repeat("*",5) |
++---------------+
+| *****         |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select replace("guhan","h","k");
++--------------------------+
+| replace("guhan","h","k") |
++--------------------------+
+| gukan                    |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select substr("guhan",3,5);
++---------------------+
+| substr("guhan",3,5) |
++---------------------+
+| han                 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select trim("  guhan ganesan  ");
++---------------------------+
+| trim("  guhan ganesan  ") |
++---------------------------+
+| guhan ganesan             |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> select replace("guhan ganesan","guhan","anbu");
++-----------------------------------------+
+| replace("guhan ganesan","guhan","anbu") |
++-----------------------------------------+
+| anbu ganesan                            |
++-----------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select reverse("chennai");
++--------------------+
+| reverse("chennai") |
++--------------------+
+| iannehc            |
++--------------------+
+1 row in set (0.05 sec)
+
+mysql> select concat("he", "is", "my","frnd");
++---------------------------------+
+| concat("he", "is", "my","frnd") |
++---------------------------------+
+| heismyfrnd                      |
++---------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select concat("he", "is", "my","frnd") as data;
++------------+
+| data       |
++------------+
+| heismyfrnd |
++------------+
+1 row in set (0.00 sec)
+

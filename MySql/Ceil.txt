@@ -1,0 +1,46 @@
+
+1. Ceil will produce a whole number that is greater than or equal to the specified value.
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> select ceil(5.2) from dual;
++-----------+
+| ceil(5.2) |
++-----------+
+|         6 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select ceil(5.0) from dual;
++-----------+
+| ceil(5.0) |
++-----------+
+|         5 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select ceil(-5.3) from dual;
++------------+
+| ceil(-5.3) |
++------------+
+|         -5 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select ceil(0) from dual;
++---------+
+| ceil(0) |
++---------+
+|       0 |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select ceil(null) from dual;
++------------+
+| ceil(null) |
++------------+
+|       NULL |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]>

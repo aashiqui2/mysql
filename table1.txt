@@ -1,0 +1,188 @@
+MariaDB [test]> alter table payilagam rename to payilagam1;
+
+MariaDB [test]> select * from payilagam1;
++------+--------+--------+
+| id   | name   | course |
++------+--------+--------+
+| py1  | Rajesh | PHP    |
++------+--------+--------+
+
+MariaDB [test]> insert into payilagam1 values("py2","Kannan", "JAVA");
+
+MariaDB [test]> select * from payilagam1;
++------+--------+--------+
+| id   | name   | course |
++------+--------+--------+
+| py1  | Rajesh | PHP    |
+| py2  | Kannan | JAVA   |
++------+--------+--------+
+
+MariaDB [test]> alter table payilagam1 add mob varchar(30) after course;
+
+MariaDB [test]> describe payilagam1;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | varchar(30) | YES  |     | NULL    |       |
+| name   | varchar(30) | YES  |     | NULL    |       |
+| course | varchar(30) | YES  |     | NULL    |       |
+| mob    | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+
+MariaDB [test]> alter table payilagam1 add SlNo varchar(30) first;
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+--------+--------+------+
+| SlNo | id   | name   | course | mob  |
++------+------+--------+--------+------+
+| NULL | py1  | Rajesh | PHP    | NULL |
+| NULL | py2  | Kannan | JAVA   | NULL |
++------+------+--------+--------+------+
+
+
+MariaDB [test]> update payilagam1 set SlNo=1 where id="py1";
+
+
+MariaDB [test]> update payilagam1 set SlNo=2 where id="py2";
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+--------+--------+------+
+| SlNo | id   | name   | course | mob  |
++------+------+--------+--------+------+
+| 1    | py1  | Rajesh | PHP    | NULL |
+| 2    | py2  | Kannan | JAVA   | NULL |
++------+------+--------+--------+------+
+
+MariaDB [test]> alter table payilagam1 change SlNo No varchar(30);
+
+
+MariaDB [test]> describe payilagam1;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| No     | varchar(30) | YES  |     | NULL    |       |
+| id     | varchar(30) | YES  |     | NULL    |       |
+| name   | varchar(30) | YES  |     | NULL    |       |
+| course | varchar(30) | YES  |     | NULL    |       |
+| mob    | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+MariaDB [test]> update payilagam1 set mob=868969 where id="py1";
+
+
+MariaDB [test]> update payilagam1 set mob=65875 where id="py2";
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+--------+--------+--------+
+| No   | id   | name   | course | mob    |
++------+------+--------+--------+--------+
+| 1    | py1  | Rajesh | PHP    | 868969 |
+| 2    | py2  | Kannan | JAVA   | 65875  |
++------+------+--------+--------+--------+
+
+
+MariaDB [test]> alter table payilagam1 modify mob varchar(50);
+
+MariaDB [test]> describe payilagam1;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| No     | varchar(30) | YES  |     | NULL    |       |
+| id     | varchar(30) | YES  |     | NULL    |       |
+| name   | varchar(30) | YES  |     | NULL    |       |
+| course | varchar(30) | YES  |     | NULL    |       |
+| mob    | varchar(50) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+MariaDB [test]> alter table payilagam1 drop column mob;
+
+MariaDB [test]> select * from payilagam1;
++------+------+--------+--------+
+| No   | id   | name   | course |
++------+------+--------+--------+
+| 1    | py1  | Rajesh | PHP    |
+| 2    | py2  | Kannan | JAVA   |
++------+------+--------+--------+
+
+
+MariaDB [test]> alter table payilagam1 change column name trainee varchar(30);
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+--------+
+| No   | id   | trainee | course |
++------+------+---------+--------+
+| 1    | py1  | Rajesh  | PHP    |
+| 2    | py2  | Kannan  | JAVA   |
++------+------+---------+--------+
+
+
+MariaDB [test]> truncate table payilagam1;
+
+
+MariaDB [test]> select * from payilagam1;
+
+
+MariaDB [test]> describe payilagam1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| No      | varchar(30) | YES  |     | NULL    |       |
+| id      | varchar(30) | YES  |     | NULL    |       |
+| trainee | varchar(30) | YES  |     | NULL    |       |
+| course  | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+MariaDB [test]> insert into payilagam1 values(1, "py1", "Naveen", "Java");
+
+
+MariaDB [test]> insert into payilagam1 values(2, "py2", "Kumar", "PHP");
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+--------+
+| No   | id   | trainee | course |
++------+------+---------+--------+
+| 1    | py1  | Naveen  | Java   |
+| 2    | py2  | Kumar   | PHP    |
++------+------+---------+--------+
+
+
+MariaDB [test]> update payilagam1 set trainee="Anbu", course="PHP" where id="py1";
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+--------+
+| No   | id   | trainee | course |
++------+------+---------+--------+
+| 1    | py1  | Anbu    | PHP    |
+| 2    | py2  | Kumar   | PHP    |
++------+------+---------+--------+
+
+
+MariaDB [test]> delete from payilagam1 where id="py2";
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+--------+
+| No   | id   | trainee | course |
++------+------+---------+--------+
+| 1    | py1  | Anbu    | PHP    |
++------+------+---------+--------+
+
+
+MariaDB [test]> update payilagam1 set course=null where id="py1";
+
+
+MariaDB [test]> select * from payilagam1;
++------+------+---------+--------+
+| No   | id   | trainee | course |
++------+------+---------+--------+
+| 1    | py1  | Anbu    | NULL   |
++------+------+---------+--------+
+

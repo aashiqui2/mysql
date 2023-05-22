@@ -1,0 +1,20 @@
+db name     id642209_wp_9d938e5658a079a3afc321c271cd2114
+
+
+
+db user 	id642209_wp_9d938e5658a079a3afc321c271cd2114
+
+
+
+
+db pass 	e298b0d5976f9a1ffadf6fc0c0807c6fdfd143b6
+
+
+host		localhost
+
+
+SET password = PASSWORD('***')
+
+
+
+SET password = ''

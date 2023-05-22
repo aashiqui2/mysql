@@ -1,0 +1,72 @@
+MariaDB [test]> create table emp(id int, name varchar(30), mob varchar(30), 
+primary key(name));
+
+
+MariaDB [test]> desc emp;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(30) | NO   | PRI | NULL    |       |
+| mob   | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+MariaDB [test]> insert into emp values(1,"Karthik","9798");
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> insert into emp values(2,"Muruga","8989");\
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from emp;
++------+---------+------+
+| id   | name    | mob  |
++------+---------+------+
+|    1 | Karthik | 9798 |
+|    2 | Muruga  | 8989 |
++------+---------+------+
+2 rows in set (0.00 sec)
+
+
+MariaDB [test]> create table sal( id varchar(30), name varchar(30), amount varch
+ar(30), primary key(name), foreign key(name) references emp(name));
+
+
+MariaDB [test]> desc sal;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | varchar(30) | YES  |     | NULL    |       |
+| name   | varchar(30) | NO   | PRI | NULL    |       |
+| amount | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+
+						MariaDB [test]> insert into sal values(1, "anbu", 12000);
+						ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
+						ails (`test`.`sal`, CONSTRAINT `sal_ibfk_1` FOREIGN KEY (`name`) REFERENCES `emp
+						` (`name`))
+
+
+MariaDB [test]> insert into sal values(1, "Karthik", 12000);
+Query OK, 1 row affected (0.07 sec)
+
+MariaDB [test]> insert into sal values(2, "Muruga", 20000);
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [test]> select * from sal;
++------+---------+--------+
+| id   | name    | amount |
++------+---------+--------+
+| 1    | Karthik | 12000  |
+| 2    | Muruga  | 20000  |
++------+---------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> insert into sal values(3, "Tamil", 22000);
+
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
+ails (`test`.`sal`, CONSTRAINT `sal_ibfk_1` FOREIGN KEY (`name`) REFERENCES `emp
+` (`name`)).
+

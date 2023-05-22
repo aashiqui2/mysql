@@ -1,0 +1,66 @@
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> create table m1(id int auto_increment,name varchar(30),country varchar(20) default "India", primary key(id));
+Query OK, 0 rows affected (0.736 sec)
+
+MariaDB [test]> desc m1;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| id      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(30) | YES  |     | NULL    |                |
+| country | varchar(20) | YES  |     | India   |                |
++---------+-------------+------+-----+---------+----------------+
+3 rows in set (0.085 sec)
+
+MariaDB [test]> insert into m1 values("","aashiq","");
+Query OK, 1 row affected, 1 warning (0.330 sec)
+
+MariaDB [test]> select * from m1;
++----+--------+---------+
+| id | name   | country |
++----+--------+---------+
+|  1 | aashiq |         |
++----+--------+---------+
+1 row in set (0.026 sec)
+
+MariaDB [test]> insert into m1 values("","arun","");
+Query OK, 1 row affected, 1 warning (0.194 sec)
+
+MariaDB [test]> select * from m1;
++----+--------+---------+
+| id | name   | country |
++----+--------+---------+
+|  1 | aashiq |         |
+|  2 | arun   |         |
++----+--------+---------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> insert into m1 value("","harish",null);
+Query OK, 1 row affected, 1 warning (0.069 sec)
+
+MariaDB [test]> select * from m1;
++----+--------+---------+
+| id | name   | country |
++----+--------+---------+
+|  1 | aashiq |         |
+|  2 | arun   |         |
+|  3 | harish | NULL    |
++----+--------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [test]> insert into m1 (name) values("gokul");
+Query OK, 1 row affected (0.113 sec)
+
+MariaDB [test]> select * from m1;
++----+--------+---------+
+| id | name   | country |
++----+--------+---------+
+|  1 | aashiq |         |
+|  2 | arun   |         |
+|  3 | harish | NULL    |
+|  4 | gokul  | India   |
++----+--------+---------+
+4 rows in set (0.001 sec)
+
+MariaDB [test]>

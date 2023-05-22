@@ -1,0 +1,135 @@
+Rolback:-
+
+MariaDB [mydb]> begin;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [mydb]> insert into t2 values(3,"hj",767);
+Query OK, 1 row affected (0.043 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
+|    3 | hj     |     767 |
++------+--------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [mydb]> rollback;
+Query OK, 0 rows affected (0.081 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
++------+--------+---------+
+2 rows in set (0.001 sec)
+
+MariaDB [mydb]>
+---------------------------------------------------
+
+Commit:-
+
+MariaDB [mydb]> begin;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [mydb]> insert into t2 values(4,"hk",768);
+Query OK, 1 row affected (0.035 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
+|    4 | hk     |     768 |
++------+--------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [mydb]> commit;
+Query OK, 0 rows affected (0.060 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
+|    4 | hk     |     768 |
++------+--------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [mydb]>
+
+---------------------------------------------------------
+Transaction:-
+
+MariaDB [mydb]> begin;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [mydb]> start transaction;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [mydb]> insert into t2 values(5,"hl",768);
+Query OK, 1 row affected (0.038 sec)
+
+MariaDB [mydb]> savepoint trans2;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [mydb]> insert into t2 values(6,"hm",768);
+Query OK, 1 row affected (0.000 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
+|    4 | hk     |     768 |
+|    5 | hl     |     768 |
+|    6 | hm     |     768 |
++------+--------+---------+
+5 rows in set (0.000 sec)
+
+
+MariaDB [mydb]> rollback to trans2;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
+|    4 | hk     |     768 |
+|    5 | hl     |     768 |
++------+--------+---------+
+4 rows in set (0.001 sec)
+
+MariaDB [mydb]> rollback;
+Query OK, 0 rows affected (0.064 sec)
+
+MariaDB [mydb]> select * from t2;
++------+--------+---------+
+| id   | name   | mobile  |
++------+--------+---------+
+|    1 | Anbu   |  762437 |
+|    2 | Kannan | 6757865 |
+|    4 | hk     |     768 |
++------+--------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [mydb]>
+-------------------- --------------------------
+DCL:-
+Grant and Revoke:-
+
+create user 'myuser'@'localhost' identified by '1234';
+show databases;
+create database mydb;
+grant select, update, delete, insert on mydb.* to 'myuser'@'localhost';
+show grants for 'myuser'@'localhost';
+revoke delete on mydb.* from 'myuser'@'localhost';
